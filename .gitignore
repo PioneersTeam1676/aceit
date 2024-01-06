@@ -1,0 +1,6 @@
+/backend/config/db.config.js
+/node_modules
+/.idea
+watch.sh
+/public
+**/core.*[0-9]*
