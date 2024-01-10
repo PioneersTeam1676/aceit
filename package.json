@@ -12,7 +12,8 @@
     "theme": "cross-env webpack --env compile=theme",
     "watch": "watch --interval=1 'npm run svelte'",
     "build": "npm run theme && npm run svelte",
-    "dev": "webpack serve --content-base public"
+    "dev": "webpack serve --content-base public",
+    "codespace": "cross-env webpack --env compile=svelte"
   },
   "dependencies": {
     "@babel/core": "^7.13.14",

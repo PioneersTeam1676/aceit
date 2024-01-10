@@ -2,5 +2,4 @@
 /node_modules
 /.idea
 watch.sh
-/public
 **/core.*[0-9]*

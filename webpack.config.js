@@ -47,6 +47,7 @@ const js = args.indexOf('js') !== -1;
 const css = args.indexOf('css') !== -1 || args.indexOf('scss') !== -1;
 const isPresets = args.indexOf('presets') !== -1;
 const svelte = process.env.npm_lifecycle_event == "svelte";
+const codespace = process.env.npm_lifecycle_event == 'codespace';
 
 // THEME VARS
 const theme = !svelte ? getTheme(args) : false;
@@ -555,9 +556,18 @@ function svelteConfig() {
 module.exports = () => {
 	if (svelte) {
 		return [svelteConfig()];
+	} else if(codespace) {
+
+		let config = svelteConfig();
+		config.watch = true;
+		config.watchOptions = {
+			aggregateTimeout: 2000,
+			ignored: '**/node_modules'
+		};
+		return [config]
 	} else {
 		//additionalSettings();
 		//importExtraPlugins();
-		//return [themeConfig()];
+		return [themeConfig()];
 	}
 };
