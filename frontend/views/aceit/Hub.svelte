@@ -1,6 +1,6 @@
 <!-- i added z-indexing on mouse down so that dragging a card over toolbar divs wouldn't break it -Victor -->
 <script>
-console.log("185")
+console.log("188")
 import { store, get } from 'svelte/store';
 import { onMount } from 'svelte';
 
