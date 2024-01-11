@@ -11,7 +11,7 @@
     <p>APPS</p>
     <p>If you're trying to access AceIt, all of the pages have been moved to apps.team1676.com/#/aceit/*/</p>
 
-    <a href="https://apps.team1676.com/#/aceit">
+    <a href="/#/aceit">
     <button>goto aceit</button>
     </a>
 

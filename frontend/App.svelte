@@ -24,6 +24,7 @@
     import AceItCardWidget from './views/aceit/widgets/CardWidget.svelte'
     import AceItLabelWidget from './views/aceit/widgets/LabelWidget.svelte'
     import AceItFilterWidget from './views/aceit/widgets/FilterWidget.svelte'
+    import HubBeta from './views/aceit/HubBeta.svelte';
 
     import AceItTest from './views/aceit/games/Test.svelte'
 
@@ -53,6 +54,7 @@
             '/aceit/cardwidget' : AceItCardWidget,
             '/aceit/labelwidget' : AceItLabelWidget,
             '/aceit/filterwidget': AceItFilterWidget,
+            '/aceit/hubbeta': HubBeta,
 
             '/aceit/test': AceItTest,
 

@@ -1,29 +1,6 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./app/views/js/vendors/plugins/prism.init.js":
-/*!****************************************************!*\
-  !*** ./app/views/js/vendors/plugins/prism.init.js ***!
-  \****************************************************/
-/***/ (() => {
-
-"use strict";
-
-
-//
-// Prism Initialization
-//
-
-Prism.plugins.NormalizeWhitespace.setDefaults({
-    'remove-trailing': true,
-	'remove-indent': true,
-	'left-trim': true,
-	'right-trim': true
-});
-
-
-/***/ }),
-
 /***/ "./webpack/plugins/custom/prismjs/prismjs.scss":
 /*!*****************************************************!*\
   !*** ./webpack/plugins/custom/prismjs/prismjs.scss ***!
@@ -3599,7 +3576,7 @@ __webpack_require__(/*! prismjs/components/prism-css.js */ "./node_modules/prism
 __webpack_require__(/*! prismjs/components/prism-php.js */ "./node_modules/prismjs/components/prism-php.js");
 __webpack_require__(/*! prismjs/components/prism-php-extras.js */ "./node_modules/prismjs/components/prism-php-extras.js");
 __webpack_require__(/*! prismjs/plugins/normalize-whitespace/prism-normalize-whitespace.js */ "./node_modules/prismjs/plugins/normalize-whitespace/prism-normalize-whitespace.js");
-__webpack_require__(/*! @/app/views/js/vendors/plugins/prism.init.js */ "./app/views/js/vendors/plugins/prism.init.js");
+__webpack_require__(Object(function webpackMissingModule() { var e = new Error("Cannot find module '@/app/views/js/vendors/plugins/prism.init.js'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
 
 __webpack_require__(/*! ./prismjs.scss */ "./webpack/plugins/custom/prismjs/prismjs.scss");
 

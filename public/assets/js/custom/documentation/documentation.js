@@ -1,9 +1,9 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	"use strict";
 var __webpack_exports__ = {};
-/*!************************************************************!*\
-  !*** ./app/views/js/custom/documentation/documentation.js ***!
-  \************************************************************/
+/*!***********************************************************!*\
+  !*** ./frontend/js/custom/documentation/documentation.js ***!
+  \***********************************************************/
 
 
 var KTLayoutDocumentation = function() {

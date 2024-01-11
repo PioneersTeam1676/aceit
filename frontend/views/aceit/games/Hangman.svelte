@@ -320,7 +320,7 @@
 {:else if game_state==="won"}
   <div class="aceit-win-screen">
       <h1>You have completed the Hangman.</h1>
-      <a href="https://apps.team1676.com/aceit/hangman">
+      <a href="/#/aceit/hangman">
           <button>Play Again</button>
       </a>
   </div>
@@ -364,7 +364,7 @@
               <table id="afterOptions">
               <tr>
               <td class="afterTD"> <button class="afterButton" on:click={reset}>Retry</button></td>
-               <td class="afterTD"> <button class="afterButton" onclick="window.location.href='https://apps.team1676.com/#/aceit/games';">Go Home</button></td>
+               <td class="afterTD"> <button class="afterButton" onclick="window.location.href='/#/aceit/games';">Go Home</button></td>
               </tr>
             </table>
 
