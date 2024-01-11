@@ -389,7 +389,7 @@
 {:else if game_state==="won"}
   <div class="aceit-win-screen-secondary">
       <h1>You have completed the memory game.</h1>
-      <a href="https://apps.team1676.com/aceit/memory">
+      <a href="/#/aceit/memory">
           <button>Play Again</button>
       </a>
   </div>

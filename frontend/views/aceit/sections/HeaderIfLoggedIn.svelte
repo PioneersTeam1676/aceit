@@ -26,7 +26,7 @@
 
 <main>
     <nav class="aceit-header">
-        <a href="https://apps.team1676.com/#/aceit">
+        <a href="/#/aceit">
             <img class="logo" src={logo} alt="LogoB">
         </a>
         <button class="aceit-header-dropdown" on:click={openNav}><i class="fa-solid fa-bars"></i></button>
@@ -41,15 +41,15 @@
         {/if}
 
         <div class="aceit-header-menu">
-            <a href="https://apps.team1676.com/#/aceit/Hub">
+            <a href="/#/aceit/Hub">
                 <button class="aceit-button {tab==0 ? "curTab" : ""}" type="home-button"><i class="fa-solid fa-house"></i>Inventory</button>
             </a>
 
-            <a href="https://apps.team1676.com/#/aceit/Marketplace">
+            <a href="/#/aceit/Marketplace">
                 <button class="aceit-button {tab==1 ? "curTab" : ""}" type="home-button"><i class="fa-solid fa-store"></i>Marketplace</button>
             </a>
 
-            <a href="https://apps.team1676.com/#/aceit/games">
+            <a href="/#/aceit/games">
                 <button class="aceit-button {tab==2 ? "curTab" : ""}" type="home-button"><i class="fa-solid fa-gamepad"></i>Games</button>
             </a>
         </div>
@@ -62,15 +62,15 @@
     <div id="mySidebar" class="sidebar" class:sidebar-open={sidebarOpen}>
         <button class="closebtn aceit-button" on:click={closeNav}><i class="fa-regular fa-circle-xmark"></i></button>
         <div class="aceit-header-menu">
-            <a href="https://apps.team1676.com/#/aceit/Hub">
+            <a href="/#/aceit/Hub">
                 <button class="aceit-button" type="home-button"><i class="fa-solid fa-house"></i>Inventory</button>
             </a>
 
-            <a href="https://apps.team1676.com/#/aceit/Marketplace">
+            <a href="/#/aceit/Marketplace">
                 <button class="aceit-button" type="home-button"><i class="fa-solid fa-store"></i> Marketplace</button>
             </a>
 
-            <a href="https://apps.team1676.com/#/aceit/games">
+            <a href="/#/aceit/games">
                 <button class="aceit-button" type="home-button"><i class="fa-solid fa-gamepad"></i> Games</button>
             </a>
         </div>

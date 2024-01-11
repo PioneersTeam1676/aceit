@@ -11,9 +11,6 @@ module.exports = app => {
 	  // Create a new Card
 	  Router.post("/", Controller.create);
 
-	  // Retrieve all Cards
-	  Router.get("/", Controller.findAll);
-
 	  // Retrieve a single Card with id
 	  Router.get("/:id", Controller.findOne);
 
@@ -23,14 +20,11 @@ module.exports = app => {
 	  // Delete a Card with id
 	  Router.delete("/:id", Controller.delete);
 
-	  // Delete all Cards
-	  Router.delete("/", Controller.deleteAll);
-
 	  // Retrieve all cards with specified owner
 	  Router.get("/owner/:owner", Controller.findOwner);
 
-	  // Retrieve all cards with specified label(s)
-	  Router.get("/label/:label", Controller.findLabel);
+	//   // Retrieve all cards with specified label(s)
+	//   Router.get("/label/:label", Controller.findLabel);
 
 	/* END OF ROUTES */
 

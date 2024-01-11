@@ -55,7 +55,7 @@ const Model = db[pi.obj];
 
     const request = https.request({
         hostname: 'portal.team1676.com',
-        path: '/api.php?session=1',
+        path: '/api.php?session='+req.query.token,
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

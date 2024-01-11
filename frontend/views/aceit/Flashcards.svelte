@@ -202,7 +202,7 @@
 {:else if game_state==="won"}
   <div class="aceit-win-screen-secondary">
       <h1>You have completed the flashcards.</h1>
-      <a href="https://apps.team1676.com/aceit/flashcards">
+      <a href="/#/aceit/flashcards">
           <button>Play Again</button>
       </a>
   </div>

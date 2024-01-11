@@ -1,9 +1,9 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	"use strict";
 var __webpack_exports__ = {};
-/*!****************************************************************!*\
-  !*** ./app/views/js/custom/apps/subscriptions/add/advanced.js ***!
-  \****************************************************************/
+/*!***************************************************************!*\
+  !*** ./frontend/js/custom/apps/subscriptions/add/advanced.js ***!
+  \***************************************************************/
 
 
 var KTSubscriptionsAdvanced = function () {

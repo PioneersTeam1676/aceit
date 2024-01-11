@@ -329,7 +329,7 @@
     {:else if question_type==="won"}
     <div class="aceit-win-screen">
         <h1>You have completed the learn mode.</h1>
-        <a href="https://apps.team1676.com/aceit/learn">
+        <a href="/#/aceit/learn">
             <button>Learn Again</button>
         </a>
     </div>
