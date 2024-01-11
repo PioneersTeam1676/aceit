@@ -2,10 +2,10 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./app/views/js/custom/utilities/modals/offer-a-deal/type.js":
-/*!*******************************************************************!*\
-  !*** ./app/views/js/custom/utilities/modals/offer-a-deal/type.js ***!
-  \*******************************************************************/
+/***/ "./frontend/js/custom/utilities/modals/offer-a-deal/type.js":
+/*!******************************************************************!*\
+  !*** ./frontend/js/custom/utilities/modals/offer-a-deal/type.js ***!
+  \******************************************************************/
 /***/ ((module) => {
 
 
@@ -145,7 +145,7 @@ if ( true && typeof module.exports !== 'undefined') {
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module is referenced by other modules so it can't be inlined
-/******/ 	var __webpack_exports__ = __webpack_require__("./app/views/js/custom/utilities/modals/offer-a-deal/type.js");
+/******/ 	var __webpack_exports__ = __webpack_require__("./frontend/js/custom/utilities/modals/offer-a-deal/type.js");
 /******/ 	
 /******/ })()
 ;
