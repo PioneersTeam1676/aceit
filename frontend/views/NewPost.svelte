@@ -23,6 +23,7 @@
 </script>
 
 <main>
+	<h1>hi!</h1>
 	<h1>NewPost</h1>
 	<input type="text" bind:value={title} />
 	<input type="text" bind:value={description} />
