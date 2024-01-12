@@ -4,3 +4,4 @@
 watch.sh
 **/core.*[0-9]*
 /public/*
+!/public/errors
