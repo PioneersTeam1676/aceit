@@ -6,3 +6,9 @@ watch.sh
 /public/*
 !/public/errors
 !/public/assets/media
+!/public/index.html
+!/public/landing.html
+!/public/main.js
+!/public/tailwind.css
+!/public/index.css
+!/public/favicon.png
