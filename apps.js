@@ -66,6 +66,7 @@ app.use(session({
 
 // home page routing
 app.get("/", (req, res) => {
+	console.log(path.join(__dirname, "public"))
 	res.sendFile(path + "index.html");
 });
 
