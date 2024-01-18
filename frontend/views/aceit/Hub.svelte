@@ -16,7 +16,7 @@ import { playCards, newCard } from '../../js/stores.js';
 let cards = [
     {
         owner: "Tester",
-        term: "SO4 2-",
+        term: "SO4 3-",
         def: "Sulfate",
         image: "https://cdn1.byjus.com/wp-content/uploads/2019/08/Sulfate-ion.png",
         labels: ["debug", "data", "Chem"],
