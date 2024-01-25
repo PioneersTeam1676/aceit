@@ -9,7 +9,9 @@ export class Card {
     /**@type {String}The defintion of the term */
     definition;
     /**@type {String} The image url on the card */
-    img;
+    image;
+    /**@type {Boolean} if the deck is public or private */
+    dbPublic;
 
     /**
      * 
@@ -17,14 +19,16 @@ export class Card {
      * @param {Number} owner - the uid of the user that owns the card
      * @param {String} term - the cards term
      * @param {String} definition - the defintion of the term
-     * @param {String} img - the image url on the card
+     * @param {String} image - the image url on the card
+     * @param {Boolean} dbPublic - if the card is public or private
      */
-    constructor(id, owner, term, definition, img) {
+    constructor(id, owner, term, definition, image, dbPublic) {
         this.id = id;
         this.owner = owner;
         this.term = term;
         this.definition = definition;
-        this.img = img;
+        this.image = image;
+        this.dbPublic = dbPublic;
     }
 
     
@@ -32,24 +36,24 @@ export class Card {
 }
 
 export class MoveableCard extends Card{
-
-    
-
     /**
      * @param {Number} id - the uid of the card in the db
      * @param {Number} owner - the uid of the user that owns the card
      * @param {String} term - the cards term
      * @param {String} definition - the defintion of the term
-     * @param {String} img - the image url on the card
+     * @param {String} image - the image url on the card
+     * @param {Boolean} dbPublic - if the card is public or private
      * @param {Number} left - the amount that the card is shifted off the left of the screen
      * @param {Number} top - the amount that the card is shofted off the top of the screen
      * @param {String} color - the color of the card NOT IMPLEMENTED YET
+     * @param {Number} zIndex - the z-index of the card
      */
-    constructor(id, owner, term, definition, img, left, top, color) {
-        super(id, owner, term, definition, img);
+    constructor(id, owner, term, definition, image, dbPublic, left, top, color, zIndex) {
+        super(id, owner, term, definition, image, dbPublic);
         this.left = left;
         this.top = top;
         this.color = color;
+        this.zIndex = zIndex;
     }
 
     /**
@@ -58,11 +62,15 @@ export class MoveableCard extends Card{
      * @param {Number} left the amount that the card is shifted left
      * @param {Number} top the amount that the card is shifted right
      * @param {Number} color the color of the card NOT IMPLEMENTED YET
+     * @param {Number} zIndex the z-index of the card
+     * @returns {MoveableCard} the MoveableCard that is created
      */
-    static generateFromCard(card, left, top, color) {
+    static generateFromCard(card, left, top, color, zIndex) {
 
-        return new MoveableCard(card.id, card.owner, card.term, card.definition, card.img, left, top, color);
+        return new MoveableCard(card.id, card.owner, card.term, card.definition, card.image, card.dbPublic, left, top, color, zIndex);
 
     }
+
+    
 
 }

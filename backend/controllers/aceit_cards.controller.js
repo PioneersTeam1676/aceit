@@ -1,4 +1,5 @@
 const pi = require("../config/pi.config.js")(__filename);
+const { Sequelize, Op } = require("sequelize");
 const db = require("../main.js");
 const op = db.Sequelize.Op;
 
@@ -25,6 +26,7 @@ const Model = db[pi.obj];
 	    definition: req.body.definition,
 	    image: req.body.image,
 	    labels: req.body.labels,
+		public: req.body.public,
 	  };
 	  let newcard;
 	  // Save card in the database
@@ -149,7 +151,7 @@ const Model = db[pi.obj];
 	exports.findOwner = (req, res) => {
 		const owner = req.params.owner;
 
-		Model.findAll({ where: { owner: owner } })
+		Model.findAll({ where: { owner: owner }})
 		  .then(data => {
 			if (data) {
 
