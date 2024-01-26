@@ -2,7 +2,9 @@ const { spawn } = require('node:child_process');
 
 
 
-const codespace = spawn(/^win/.test(process.platform) ? 'npm run dev' : 'npm', ['run',  'codespace']);
+const codespace = spawn(/^win/.test(process.platform) ? 'npm run dev' : 'npm', ['run',  'codespace'], {
+    detached: false
+});
 
 codespace.stdout.on('data', (data) => {
     console.log(`[COMPILE]: ${data.toString()}`);
@@ -18,7 +20,9 @@ codespace.on('exit', function (code) {
 
 
 
-const node = spawn(/^win/.test(process.platform) ? 'node apps.js' : 'node', ['apps.js']);
+const node = spawn(/^win/.test(process.platform) ? 'node apps.js' : 'node', ['apps.js'], {
+    detahced: false
+});
 
 node.stdout.on('data', (data) => {
     console.log(`[BACKEND]: ${data.toString()}`);

@@ -19,6 +19,9 @@ module.exports = (conn, Sequelize) => {
 		},
 		labels: {
 			type: Sequelize.STRING
+		},
+		public: {
+			type: Sequelize.BOOLEAN
 		}
 
 	/* END OF MODEL */

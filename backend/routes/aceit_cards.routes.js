@@ -11,6 +11,9 @@ module.exports = app => {
 	  // Create a new Card
 	  Router.post("/", Controller.create);
 
+	//   Get all the cards
+	//   Router.get("/", Controller.findAll)
+
 	  // Retrieve a single Card with id
 	  Router.get("/:id", Controller.findOne);
 

@@ -1,6 +1,6 @@
 <!-- i added z-indexing on mouse down so that dragging a card over toolbar divs wouldn't break it -Victor -->
 <script>
-console.log("188")
+console.log("188");
 import { store, get } from 'svelte/store';
 import { onMount } from 'svelte';
 
@@ -16,7 +16,7 @@ import { playCards, newCard } from '../../js/stores.js';
 let cards = [
     {
         owner: "Tester",
-        term: "SO4 3-",
+        term: "SO4 2-",
         def: "Sulfate",
         image: "https://cdn1.byjus.com/wp-content/uploads/2019/08/Sulfate-ion.png",
         labels: ["debug", "data", "Chem"],
@@ -60,7 +60,6 @@ let cards = [
         zIndex: 100
     }
 ];
-
 
 let sections = [
     {
