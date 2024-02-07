@@ -12,6 +12,7 @@ export class Card {
     image;
     /**@type {Boolean} if the deck is public or private */
     dbPublic;
+    
 
     /**
      * 
@@ -31,11 +32,35 @@ export class Card {
         this.dbPublic = dbPublic;
     }
 
+
+
     
 
 }
 
-export class MoveableCard extends Card{
+export class MoveableCard extends Card {
+
+    /**@type {Number}  */
+    id;
+    /**@type {Number} */
+    owner;
+    /**@type {String} */
+    term;
+    /**@type {String} */
+    definition;
+    /**@type {String} */
+    image;
+    /**@type {Boolean} */
+    dbPublic;
+    /**@type {Number} */
+    left;
+    /**@type {Number} */
+    top;
+    /**@type {String} */
+    color;
+    /**@type {Number} */
+    zIndex;
+
     /**
      * @param {Number} id - the uid of the card in the db
      * @param {Number} owner - the uid of the user that owns the card
@@ -56,21 +81,38 @@ export class MoveableCard extends Card{
         this.zIndex = zIndex;
     }
 
-    /**
-     * Generates a MoveableCard from a Card and other required instance variables
-     * @param {Card} card the card to create the new MoveableCard from
-     * @param {Number} left the amount that the card is shifted left
-     * @param {Number} top the amount that the card is shifted right
-     * @param {Number} color the color of the card NOT IMPLEMENTED YET
-     * @param {Number} zIndex the z-index of the card
-     * @returns {MoveableCard} the MoveableCard that is created
-     */
-    static generateFromCard(card, left, top, color, zIndex) {
 
-        return new MoveableCard(card.id, card.owner, card.term, card.definition, card.image, card.dbPublic, left, top, color, zIndex);
-
-    }
 
     
 
 }
+
+/**
+ * Generates a new Card object from an object returned by the backend
+ * @param {Object} card the card object returned by the database
+ * @param {Number} card.id the unique id of the card in the db
+ * @param {Number} card.owner the unique id of the owner in the db
+ * @param {String} card.term the card's term
+ * @param {String} card.definition the card's definiton
+ * @param {String} card.image the image url on the card
+ * @param {Boolean} card.public if the card is public or private
+ * @param {String} card.labels a csv of labels on the card DEPRECATED - not actually used in creating the Card object
+ * @returns {Card} the newly created Card
+ */
+export function generateCardFromDB(card) {
+    return new Card(card.id, card.owner, card.term, card.definition, card.image, card.public);   
+}
+
+/**
+ * Generates a MoveableCard from a Card and other required instance variables
+ * @param {Card} card the card to create the new MoveableCard from
+ * @param {Number} left the amount that the card is shifted left
+ * @param {Number} top the amount that the card is shifted right
+ * @param {Number} color the color of the card NOT IMPLEMENTED YET
+ * @param {Number} zIndex the z-index of the card
+ * @returns {MoveableCard} the MoveableCard that is created
+ */
+export function generateMoveableCardFromCard(card, left, top, color, zIndex) {
+    return new MoveableCard(card.id, card.owner, card.term, card.definition, card.image, card.dbPublic, left, top, color, zIndex);
+}
+

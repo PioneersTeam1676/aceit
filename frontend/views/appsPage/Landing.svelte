@@ -15,6 +15,8 @@
     <button>goto aceit</button>
     </a>
 
+    <a href="/#/aceit/hubbeta"><button>goto betahub (for dylan)</button></a>
+
     <Footer/> 
 </main>
 

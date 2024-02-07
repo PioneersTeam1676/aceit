@@ -2,16 +2,22 @@
 <!-- This component does not handle API, requests, etc. -->
 
 <script>
-    export let title, subtitles;
+    
+    export let title, subtitles, definition, style;
 </script>
 
-<div class="card">
+<div class="card" style="{style != undefined ? style : ''}">
     <div class="item-title">
         <span class="title">{title}</span>
+        <span class="definition">{definition}</span>
         <div class="subtitle-group">
-            {#each subtitles as subtitle}
-                <span class="subtitle">{subtitle}</span>
-            {/each}
+
+            {#if subtitles != undefined}
+                {#each subtitles as subtitle}
+                    <span class="subtitle">{subtitle}</span>
+                {/each}
+            {/if}
+            
         </div>
     </div>
 
@@ -26,8 +32,8 @@
         border: 2px solid black;
         border-radius: 5px;
         padding: 5px;
-        width: 300px;
-        height: 200px;
+        width: 18.75rem;
+        height: 12.5rem;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
@@ -47,6 +53,10 @@
         font-weight: bold;
         font-size: 32px;
         color: var(--aceit-accent);
+    }
+    .definition {
+        color: white;
+        font-size: smaller;
     }
 
     .subtitle {
