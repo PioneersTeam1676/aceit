@@ -13,6 +13,7 @@
     import frogVideo4 from '../../../media/aceit/frogGifPart4.gif';
     import frogVideo5 from '../../../media/aceit/frogGifPart5.gif';
     import frogBase from '../../../media/aceit/AllAlive.jpg';
+    import CardProp from '../sharedComponents/CardProp.svelte'
 
     let cards = [
         {
@@ -120,7 +121,7 @@
 
   var currentFrog=frogVid[0];
 
-	onMount(async () => {
+	onMount(async () => { 
 		//Tests Vars
       seperationArr=cards[index].term.split(" ");
   for(let lowerInd=0;lowerInd<seperationArr.length;lowerInd++)
@@ -382,8 +383,6 @@
 
     </tr>
   </table>
-
-
   <div id="keyboard-cont">
     <div class="first-row">
       <button class="keyboard-button">q</button>
@@ -417,9 +416,13 @@
       <button class="keyboard-button">n</button>
       <button class="keyboard-button">m</button>
     </div>
+    
   </div>
 
 {/if}
+
+
+<CardProp/>
 
   <Footer/>
 
