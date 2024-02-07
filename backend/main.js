@@ -45,3 +45,4 @@ fs.readdirSync(modelsDir).forEach(function(file) {
 });
 
 module.exports = db;
+

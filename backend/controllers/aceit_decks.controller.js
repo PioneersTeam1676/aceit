@@ -2,7 +2,12 @@ const pi = require("../config/pi.config.js")(__filename);
 const db = require("../main.js");
 const op = db.Sequelize.Op;
 
+// const Model = require('@types/sequelize')
+
+// import {Model} from '@types/sequelize';
+
 // https://sequelize.org/api/v6/class/src/model.js~model
+/**@type {Model} */
 const Model = db[pi.obj];
 
 
@@ -23,6 +28,7 @@ const Model = db[pi.obj];
 	    owner: req.body.owner,
 	    name: req.body.name,
 	    description: req.body.description,
+		cards: req.body.cards,
 	    public: req.body.public
 	  };
 	  // Save deck in the database
@@ -116,7 +122,7 @@ const Model = db[pi.obj];
 		Model.findAll({ where: { owner: owner } })
 		  .then(data => {
 			if (data) {
-
+				console.log(owner);
 			  res.send(data);
 			} else {
 			  res.status(404).send({

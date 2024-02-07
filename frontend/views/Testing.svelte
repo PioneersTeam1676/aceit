@@ -14,6 +14,7 @@
     const data = await response.text();
     loginFrameSrc = "https://portal.team1676.com/api.php?key=" + data + "&callback=" + callback + "&app_name=" + app_name;
   });
+
 </script>
 
 <Header />

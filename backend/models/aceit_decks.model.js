@@ -1,3 +1,10 @@
+const { Sequelize } = require("sequelize");
+/**
+ * 
+ * @param {Any} conn 
+ * @param {Sequelize} Sequelize 
+ * @returns 
+ */
 module.exports = (conn, Sequelize) => {
 	const pi = require("../config/pi.config.js")(__filename);
 	return conn.define(pi.obj, {
@@ -14,6 +21,9 @@ module.exports = (conn, Sequelize) => {
         description: {
             type: Sequelize.STRING
         },
+		cards: {
+			type: Sequelize.TEXT
+		},
         public: {
             type: Sequelize.BOOLEAN
         }
