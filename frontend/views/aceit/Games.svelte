@@ -12,13 +12,19 @@ import Header from './sections/Header.svelte';
       </div>
   </div>
 
+
+   <!--FlashCards-->
+   
   <div class="accordion" id="accordionExample">
     <div class="accordion-item">
+
       <h2 class="accordion-header" id="headingOne">
         <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
           Flash Cards
         </button>
       </h2>
+
+   
       <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
         <div class="accordion-body">
           <div class="accordion-text">
@@ -29,13 +35,18 @@ import Header from './sections/Header.svelte';
           </div>
         </div>
       </div>
+
     </div>
   <div class="accordion-item">
+
     <h2 class="accordion-header" id="headingTwo">
       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
         Hangman
       </button>
     </h2>
+
+    <!--Hangman-->
+
     <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
       <div class="accordion-body">
         <div class="accordion-text">
@@ -45,14 +56,19 @@ import Header from './sections/Header.svelte';
         <img src="" class="img-fluid accordion-image" alt="...">
         </div>
       </div>
-    </div>
+    </div> 
+
   </div>
+
+   <!--Memory Match-->
+
   <div class="accordion-item">
     <h2 class="accordion-header" id="headingThree">
       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
         Memory Match
       </button>
     </h2>
+
     <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
       <div class="accordion-body">
         <div class="accordion-text">
@@ -63,13 +79,19 @@ import Header from './sections/Header.svelte';
         </div>
       </div>
     </div>
+
   </div>
+
+
+  <!--Boss Battle-->
     <div class="accordion-item">
+
       <h2 class="accordion-header" id="headingFour">
         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
           Boss Battle
         </button>
       </h2>
+
       <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
         <div class="accordion-body">
           <div class="accordion-text">
@@ -80,6 +102,7 @@ import Header from './sections/Header.svelte';
           </div>
         </div>
       </div>
+
     </div>
     <div class="accordion-item">
       <h2 class="accordion-header" id="headingFive">
