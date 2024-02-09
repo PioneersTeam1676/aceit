@@ -6,19 +6,36 @@
 </script>
 
 <div class="card">
-   <h1 style="max-width:100%;">TITLE TITLE TITLE</h1>
+   <h1 style="max-width:100%;">TITLE </h1>
     <div id="splitLine"></div>
+    <h1 style="max-width:100%;"></h1>
+
+    <div class="w3-container"> 
+     <p> i love me </p>
+    </div>
+
 
 </div>
 
 <style>
-    .card {
+    .w3-container {
+        margin-left: 15%;
         background-color: var(--aceit-primary);
+        border: 2px solid black;
+        padding: 100px;
+        width: 100px;
+        height: 1px;
+        display: flex;
+  
+        
+    }
+    .card {
+        background-color: purple;
         border: 2px solid black;
         border-radius: 5px;
         padding: 5px;
         width: 300px;
-        height: 200px;
+        height: 100px;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
