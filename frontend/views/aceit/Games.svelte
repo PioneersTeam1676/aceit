@@ -84,7 +84,7 @@ import Header from './sections/Header.svelte';
     <div class="accordion-item">
       <h2 class="accordion-header" id="headingFive">
         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
-          Title
+          TBD
         </button>
       </h2>
       <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordionExample">
@@ -102,7 +102,7 @@ import Header from './sections/Header.svelte';
     <div class="accordion-item">
       <h2 class="accordion-header" id="headingSix">
         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
-          Title
+          TBD
         </button>
       </h2>
       <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingSix" data-bs-parent="#accordionExample">
