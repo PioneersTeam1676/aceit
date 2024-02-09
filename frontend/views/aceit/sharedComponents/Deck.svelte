@@ -5,6 +5,14 @@
 
     /**@type {Deck}*/
     export let deck;
+
+    /**@type {String}*/
+    export let left;
+
+    /**@type {String}*/
+    export let top;
+
+    console.log(top)
 </script>
 
 <div class="deck">
@@ -42,6 +50,7 @@
     justify-content: space-between;
     overflow: auto;
     min-width: 14rem;
+    
 
     transition: all 0.2s ease;
 }

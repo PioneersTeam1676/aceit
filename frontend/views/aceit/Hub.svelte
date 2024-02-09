@@ -108,7 +108,6 @@ let currentCardIndex = 0;
 
 
 const cardMouseDown = (card, index) => {
-
     currentCardIndex = index;
     cardSelected = true;
     cards[index] = card;
@@ -208,7 +207,7 @@ const sectMouseDown = (sect, index) => {
     console.log("HELLO")
 
     currentSectIndex = index;
-    sectionSelected = true;
+    // sectionSelected = true;
     sections[index] = sect;
     sections[currentSectIndex].moving = true;
     sections[currentSectIndex].zIndex = 1000000;

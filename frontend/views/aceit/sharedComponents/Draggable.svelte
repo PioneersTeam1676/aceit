@@ -3,20 +3,25 @@
 
     import { MoveableDeck } from "../Deck.js"
 
+    import Hub from "../Hub.js";
+
     /**@type {MoveableCard}*/
     export let moveableCard;
 
     /**@type {MoveableDeck}*/
     export let moveableDeck;
 
-    /**@type String*/
+    /**@type {String}*/
     export let style;
 
-    let draggable = moveableCard != undefined ? moveableCard : moveableDeck;
+    /**@type {Hub}*/
+    export let hub;
+
+    // let draggable = moveableCard != undefined ? moveableCard : moveableDeck;
 
 </script>
 
-<div class="draggable" draggable="true" style="{style != undefined ? style : ''}">
+<div class="draggable" on:mousedown={() => {moveableDeck =  hub.mouseDown()}} on:touchstart={() => {moveableDeck = moveableDeck.mouseDown()}}>
 <slot></slot>
 </div>
 

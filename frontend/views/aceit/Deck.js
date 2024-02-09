@@ -113,4 +113,7 @@ export class MoveableDeck extends Deck {
             return new MoveableDeck(deck.id, deck.owner, deck.name, deck.description, deck.dbPublic, deck.cards, left, top, zIndex);
         }
 
+
+
+
 }

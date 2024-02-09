@@ -47,6 +47,7 @@ export default class Hub {
         this.searchValue = "";
         this.currentSide = "cards";
         this.currentSideElement = this.cards;
+        this.movingDeck = 0;
 
         
 
@@ -70,7 +71,10 @@ export default class Hub {
         cards.then((res) => {
             for(let i = 0; i < res.length; i++) {
                 let card = res[i];
-                this.cards.push(generateCardFromDB(card));
+
+                if(!this.cardsContainsID(card.id)) {
+                    this.cards.push(generateCardFromDB(card));
+                }
             }
         })
         return cards;
@@ -122,19 +126,75 @@ export default class Hub {
 
             for(let i = 0; i < cardIDS.length; i++) {
 
-                let card = await request(`api/aceit_cards/${cardIDS[i]}, 'GET`);
+                if(!this.cardsContainsID(cardIDS[i])) {
+                    let card = await request(`api/aceit_cards/${cardIDS[i]}, 'GET`);
+                    this.cards.push(generateCardFromDB(card));
+                } else {
+                    cards.push(this.getCardWithID(cardIDS[i]));
+                }
 
-                cards[i] = generateCardFromDB(card);
+                
                 
             }
 
-            console.log(cards);
+            if(!this.decksContainsID(deck.id)) {
+                this.decks.push(new Deck(deck.id, deck.owner, deck.name, deck.description, deck.public, cards));            
 
-            this.decks.push(new Deck(deck.id, deck.owner, deck.name, deck.description, deck.public, cards));
+            }
+
+
         }
 
         
         return decks;
+    }
+
+
+
+    /**
+     * Checks if the Cards array contains a card with a specific id
+     * @param {Number} id - the uid of the card to check for
+     * @returns {Boolean} true if the Cards array contains a card with the id, false if it does not
+     */
+    cardsContainsID(id) {
+
+        for(let i = 0; i < this.cards.length; i++) {
+            if(this.cards[i].id == id) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+    /**
+     * Gets the card with a specific id from the cards array
+     * @param {Number} id the id to check for in the cards array
+     * @returns {Card} the card with the id or null if it does not exist
+     */
+    getCardWithID(id) {
+
+        for(let i = 0; i < this.cards.length; i++) {
+            if(this.cards[i].id == id) {
+                return this.cards[i];
+            }
+        }
+
+        return null;
+    }
+    /**
+     * Checks if the Decks array contains a deck with a specific id
+     * @param {Number} id the uid of the card to check for
+     * @returns {Boolean} true if the Decks array contains a deck with the id, false if it does not
+     */
+    decksContainsID(id) {
+            
+            for(let i = 0; i < this.decks.length; i++) {
+                if(this.decks[i].id == id) {
+                    return true;
+                }
+            }
+    
+            return false;
     }
 
 }
