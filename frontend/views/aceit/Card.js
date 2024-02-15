@@ -32,6 +32,8 @@ export class Card {
         this.dbPublic = dbPublic;
     }
 
+    
+
 
 
     

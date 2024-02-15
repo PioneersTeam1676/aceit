@@ -3,23 +3,23 @@
     // import svelte components
     import Header from '../aceit/sections/Header.svelte';
     import CardElement from './sharedComponents/Card.svelte';
+    import Draggable from './sharedComponents/Draggable.svelte';
+    import DeckElement from './sharedComponents/Deck.svelte';
 
     // import js stuff
     import { Card, MoveableCard } from "./Card.js";
     import Hub from "./Hub.js"
     import request from "../api.js";
-    import { Deck } from "./Deck.js"
+    import { Deck, MoveableDeck } from "./Deck.js"
     import { onMount } from 'svelte';
-    import Draggable from './sharedComponents/Draggable.svelte';
-    import DeckElement from './sharedComponents/Deck.svelte';
-    import { prevent_default } from 'svelte/internal';
+
 
     /** @type {Hub} */
     let hub;
     hub = new Hub(-1);    
 
     async function handleClick() {
-        console.log(hub.cards);
+        hub.activeModal = true;
     }
 
     function refreshSideBar() {
@@ -38,6 +38,8 @@
         // set the data that is being transfered durring the drag
         deck.origin = origin;
         ev.dataTransfer.setData("text/plain", JSON.stringify(deck));
+        console.log("owner from dragStart")
+        console.log(JSON.parse(ev.dataTransfer.getData("text/plain")).owner)
 
 
         //create the div that is going to be dragged by the user
@@ -53,9 +55,14 @@
         dragImage.appendChild(description);
         document.body.appendChild(dragImage);
         ev.dataTransfer.setDragImage(dragImage, 0, 0);
-        
+    }
 
-        // console.log(ev);
+    function dragCardStart(ev, card, origin) {
+        ev.stopPropagation();
+
+        //set the data that is being transfered durring the drag
+        card.origin = origin;
+        ev.dataTransfer.setData("text/plain", JSON.stringify(card));
     }
 
 
@@ -72,57 +79,56 @@
          */
         let data = JSON.parse(ev.dataTransfer.getData("text/plain"));
 
-        if(data.origin == "sidebar") {
+        if(data.origin == "sidebar-deck") {
 
             if(ev.target.id == "hub-field") {
 
-
-            let sideBarDeckElement = document.getElementById(`sidebar-deck-${data.id}`);
-
-            sideBarDeckElement.style.display = "none";
-
-            let containerDiv = document.createElement('div');
-            document.getElementById("hub-field").appendChild(containerDiv);
-            containerDiv.style.position = "absolute";
-            containerDiv.style.left = ev.clientX + "px";
-            containerDiv.style.top = ev.clientY + "px";
-            containerDiv.setAttribute("draggable", "true");
-            containerDiv.addEventListener("dragstart", (ev) => dragStart(ev, data, "field"));
-            containerDiv.id = `field-deck-${data.id}`;
+                // remove the deck from the sidebar
+                let sideBarDeckIndex = hub.decks.findIndex(deck => deck.id == data.id);
+                hub.decks.splice(sideBarDeckIndex, 1);
+                hub.decks = hub.decks;
 
 
-            let deckComp = new DeckElement({
-                target: containerDiv,
-                props: {
-                    deck: data,
-                }
-            });
-
-
-            console.log(deckComp);
+                // add the deck to the feild
+                let moveableDeck = MoveableDeck.generateFromDeck(data, ev.clientX, ev.clientY, 2);
+                hub.moveableDecks.push(moveableDeck);
+                hub.moveableDecks = hub.moveableDecks;
 
         }
 
 
 
-    } else if(data.origin == "field") {
+    } else if(data.origin == "field-deck") {
 
-        let fieldDeckElement = document.getElementById(`field-deck-${data.id}`);
+        // let fieldDeckElement = document.getElementById(`field-deck-${data.id}`);
+
+        let moveableDeckIndex = hub.moveableDecks.findIndex(deck => deck.id == data.id);
+        
 
         if(ev.target.id == "hub-field") {
 
-            fieldDeckElement.style.left = ev.clientX + "px";
-            fieldDeckElement.style.top = ev.clientY + "px";
-
-        } else {
+            hub.moveableDecks[moveableDeckIndex].left = ev.clientX;
+            hub.moveableDecks[moveableDeckIndex].top = ev.clientY;
 
 
-            let sideBarDeckElement = document.getElementById(`sidebar-deck-${data.id}`);
+        } else if(ev.target.id == "hub-sidebar-decks") {
 
-            sideBarDeckElement.style.display = "block";
+            console.log(ev.target.id);
 
 
-            fieldDeckElement.remove();
+            // let sideBarDeckElement = document.getElementById(`sidebar-deck-${data.id}`);
+
+            // sideBarDeckElement.style.display = "block";
+            console.log(data.owner)
+
+            hub.decks.push(new Deck(data.id, data.owner, data.name, data.description, data.dbPublic, data.cards))
+            hub.decks = hub.decks;
+
+            let fieldDeckIndex = hub.moveableDecks.findIndex(deck => deck.id == data.id);
+            hub.moveableDecks.splice(fieldDeckIndex, 1);
+
+
+            // fieldDeckElement.remove();
 
         }
 
@@ -133,7 +139,7 @@
 
     }
 
-    console.log(ev)
+    // console.log(ev)
 
 
     }
@@ -145,15 +151,134 @@
         ev.preventDefault();
         console.log(ev);
 
-        console.log(ev.target.id.substring(0, 12))
+        let data = JSON.parse(ev.dataTransfer.getData("text/plain"));
 
-        if(data.origin = "sidebar") {
-            if(ev.target.id.substring(0, 12) == "field-deck-") {
-                console.log(ev.target.id)
+        let containerDiv = ev.target.closest('.draggable-deck');
+
+        if(data.origin == "sidebar-card") {
+            if(containerDiv?.id.substring(0, 11) == "field-deck-") {
+                console.log(data);
+
+                let deckID = containerDiv.id.substring(11);
+                console.log(deckID);
+
+                let deckIndex = hub.moveableDecks.findIndex(deck => deck.id == deckID);
+
+                let card = new Card(data.id, data.owner, data.term, data.definition, data.image, data.dbPublic);
+
+                let deck = hub.moveableDecks[deckIndex];
+
+
+
+                if(!deck.cards.map(c => c.id).includes(card.id)) {
+                    // const addCard = request(`api/aceit_decks/${deckID}`, 'PUT', {cards: `${hub.moveableDecks[deckIndex].cards.map(c => c.id)}, ${card.id}`});
+                    
+                    // addCard.then(res => {
+                    //     console.log(res);
+                    // });
+
+                    hub.moveableDecks[deckIndex].cards.push(card);
+
+                    hub.moveableDecks[deckIndex].refreshBackend();
+                    
+                } else {
+
+                    shake(containerDiv.id);
+
+                }
+
+                
+
+
+
+
+                hub.moveableDecks = hub.moveableDecks;
+
             }
         }
 
     
+    }
+
+    function shake(id) {
+        let element = document.getElementById(id);
+        element.style.animation = 'shake 0.5s'; // Run the shake animation for 0.5 seconds
+        element.style.animationIterationCount = '1'; // Run the animation only once
+
+        // Remove the animation so it can be triggered again later
+        element.addEventListener('animationend', () => {
+            element.style.animation = '';
+        });
+    }
+
+    function extraFunc(deck, card) {
+
+        console.log('hi');
+
+        console.log(deck.cards);
+
+        let deckIndex = hub.moveableDecks.findIndex(d => d.id == deck.id);
+
+        hub.moveableDecks[deckIndex].cards.splice(hub.moveableDecks[deckIndex].cards.findIndex(c => c.id == card.id), 1);
+        hub.moveableDecks = hub.moveableDecks;
+        hub.moveableDecks[deckIndex].refreshBackend();
+
+        // removes the card from the deck 
+        // hub.moveableDecks.find(d => d.id == deck.id).cards.splice(hub.cards.findIndex(c => c.id == card.id), 1);
+
+        console.log(deck.cards);
+
+    }
+
+    /**
+     * @param {Card} card the card to be checked
+     * @param {String} searchValue the value to be checked against
+    */
+    function passesCardSearch(card, searchValue) {
+        if(searchValue == "") {
+            return true;
+        } else {
+            return card.term.toLowerCase().includes(searchValue.toLowerCase()) || card.definition.toLowerCase().includes(searchValue.toLowerCase());
+        }
+    }
+
+    /**
+     * @param {Deck} deck the deck to be checked
+     * @param {String} searchValue the value to be checked against
+    */
+    function passesDeckSearch(deck, searchValue) {
+        if(searchValue == "") {
+            return true;
+        } else {
+            return (
+            deck.name.toLowerCase().includes(searchValue.toLowerCase()) || 
+            deck.description.toLowerCase().includes(searchValue.toLowerCase()) 
+//            || maybe implement a way for search to also filter cards in a deck
+            );
+        }
+    }
+
+
+    /**
+     * 
+     *  Activates the popup that lets the user launch a game from a deck
+     * 
+     * @param {Deck} deck
+    */
+    function playModal(deck) {
+        
+        let popupDiv = document.createElement('div');
+        document.getElementById(`title-group-${deck.id}`).appendChild(popupDiv);
+
+
+        popupDiv.style = "position:absolute; top: 10%; left: 105%; background-color: aqua; width: 12rem; height: 16rem; z-index: 10000;";
+
+        popupDiv.innerHTML = `
+            <h1>Modal</h1>
+            <button on:click={() => {hub.activeModal = false}}>Close</button>
+        `;
+
+
     }
 
 
@@ -164,14 +289,32 @@
     <Header/>
 
 
-    <!-- <button on:click={handleClick} style="position: absolute;">thingy</button> -->
+    <button on:click={handleClick} style="position: absolute;">thingy</button>
 
     <!-- the main container for the hub -->
-    <div class="hub-container" >
+    <div class="hub-container">
+
+        {#if hub.activeModal} 
+
+            <div class="modal-container">
+                <div style="background-color: aqua; width: 12rem; height: 16rem;">
+                    <h1>Modal</h1>
+                    <button on:click={() => {hub.activeModal = false}}>Close</button>
+                </div>
+            </div>
+
+        {/if}
 
         <!-- hub field - where the decks are dragged around and placed down -->
         <div class="hub-field" id="hub-field" on:dragover={ ev => {ev.preventDefault()}} on:drop={ ev => {dragDeckEnd(ev)}}>
 
+            {#each hub.moveableDecks as deck}
+
+            <div class="draggable-deck" id="field-deck-{deck.id}" style="position: absolute; left: {deck.left}px; top: {deck.top}px;" draggable="true" on:dragstart={ev => dragStart(ev, deck, "field-deck")} on:dragover={ev => {ev.preventDefault()}} on:drop={ev => {dragCardEnd(ev)}}>
+                <DeckElement deck={deck} extraCardFunc={(card) => {extraFunc(deck, card)}} extraCardClass={"aceit-button aceit-close-button aceit-button-primary"} extraCardText={"X"} extraDeckClass={"aceit-button aceit-button-tertiary"} extraDeckFunc={() => {playModal(deck)}} extraDeckText={'🚀'}> </DeckElement>
+            </div>
+
+            {/each}
         </div>
 
         <!-- hub sidebar - where the decks and cards are stored -->
@@ -198,9 +341,15 @@
 
                     {:else }
                         {#each hub.cards as card}
-                            <div class="sidebar-card; draggable" draggable="true">
-                                <CardElement title={card.term} definition={card.definition} style={'width: fit-content; min-width: 14rem; height:fit-content; padding-2rem;'} draggable="true"> </CardElement>
-                            </div>
+
+                            {#if passesCardSearch(card, hub.searchValue)}
+
+                                <div class="sidebar-card; draggable" draggable="true" style="overflow-x: visible;" on:dragstart={ev => dragCardStart(ev, card, "sidebar-card")}>
+                                    <CardElement title={card.term} definition={card.definition} style={'width: fit-content; min-width: 14rem; height:fit-content; padding-2rem;'} draggable="true"> </CardElement>
+                                </div>
+                            
+                            {/if}
+
                         {/each}
 
                     {/if}
@@ -211,9 +360,14 @@
                     {/if}
 
                     {#each hub.cards as card}
-                    <div class="sidebar-card; draggable" draggable="true">
-                            <CardElement title={card.term} definition={card.definition} style={'width: fit-content; min-width: 14rem; height:fit-content; padding-2rem;'} draggable="true"> </CardElement>
-                    </div>
+
+                        {#if passesCardSearch(card, hub.searchValue)}
+
+                            <div class="sidebar-card; draggable" draggable="true" on:dragstart={ev => {dragCardStart(ev, card, "sidebar-card")}}>
+                                <CardElement title={card.term} definition={card.definition} style={'width: fit-content; min-width: 14rem; height:fit-content; padding-2rem;'} > </CardElement>
+                            </div>
+
+                        {/if}
                     {/each}
                 {/await}
 
@@ -223,22 +377,33 @@
 
             
             
-            {#await hub.loadDecks({owner: hub.userID})}
+            {#await hub.decks.length == 0 && hub.moveableDecks == 0 ? hub.loadDecks({owner: hub.userID}) : Promise.resolve()}
                 <p>Loading Decks...</p>
             {:then decks} 
-            <div on:dragover={ ev => ev.preventDefault()} on:drop={ev => {dragDeckEnd(ev)}} style="flex-grow: 1; min-width:90%">
+            <div on:dragover={ ev => ev.preventDefault()} on:drop={ev => {dragDeckEnd(ev)}} style="flex-grow: 1; min-width:90%" id=hub-sidebar-decks>
             
-                {#if decks.length == 0}
+
+                {#if hub.decks.length == 0 && hub.moveableDecks.length == 0}
                 <p>No Decks Found 😢 Maybe you should make one?</p>
+
+                {:else if hub.moveableDecks.length != 0 && hub.decks.length == 0}
+
+                <p>All your decks are on the board!</p>
+                <p>You can drag them back here!</p>
+
                 {/if}
                 
                 {#each hub.decks as deck}
-                <!-- <Draggable moveableCard={deck}> -->
-                    <div draggable="true" on:dragstart={(event) => dragStart(event, deck, "sidebar")} id="sidebar-deck-{deck.id}" on:dragover={ev => ev.preventDefault()} on:drop={ev => {dragCardEnd(ev)}}>
-                        <DeckElement deck={deck}> </DeckElement>
-                    </div>
-                    <!-- </Draggable> -->
-                    {/each}
+
+                    {#if passesDeckSearch(deck, hub.searchValue)}
+
+                        <div draggable="true" on:dragstart={(event) => dragStart(event, deck, "sidebar-deck")} id="sidebar-deck-{deck.id}" on:drop={ev => {dragCardEnd(ev)}}>
+                            <DeckElement deck={deck}> </DeckElement>
+                        </div>
+
+                    {/if}
+
+                {/each}
                     
                     
                     
@@ -328,6 +493,32 @@
         width: fit-content;
         height: fit-content;
     }
+    .draggable-deck {
+        height: fit-content;
+        max-height: 60%;
+    }
+    .modal-container {
+        position: fixed; 
+        top: 50%; 
+        left: 50%; 
+        /* transform: translate(-50%, -50%);  */
+        z-index: 1000;
+        animation: pop-up 0.5s ease-out;
+    }
+
+    @keyframes pop-up {
+        0% {
+          transform: scale(0);
+          opacity: 0;
+        }
+        50% {
+          transform: scale(1.05);
+        }
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+}
 
 
 </style>

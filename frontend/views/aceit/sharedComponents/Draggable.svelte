@@ -5,14 +5,8 @@
 
     import Hub from "../Hub.js";
 
-    /**@type {MoveableCard}*/
-    export let moveableCard;
-
     /**@type {MoveableDeck}*/
     export let moveableDeck;
-
-    /**@type {String}*/
-    export let style;
 
     /**@type {Hub}*/
     export let hub;

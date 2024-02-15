@@ -32,8 +32,10 @@ export default class Hub {
     searchValue;
     /** @type {String} - the type of data that the sidebar is displaying */
     currentSide;
-    /**@type {Array.<Deck>|Array.<Card>} */
+    /**@type {Array.<MoveableDeck>|Array.<Card>} */
     currentSideElement;
+    /**@type {Boolean} */
+    activeModal;
     
    
 
@@ -48,6 +50,7 @@ export default class Hub {
         this.currentSide = "cards";
         this.currentSideElement = this.cards;
         this.movingDeck = 0;
+        this.activeModal = false;
 
         
 
@@ -113,7 +116,7 @@ export default class Hub {
      */
     async loadDecks(params) {
 
-        /** @type {Promise.<Array.<Object>>} */
+        /** @type {Promise.<Array.<Deck>>} */
         let decks = await request(`api/aceit_decks/owner/${params.owner}`);
 
         for(let i = 0; i < decks.length; i++) {
@@ -137,9 +140,10 @@ export default class Hub {
                 
             }
 
-            if(!this.decksContainsID(deck.id)) {
-                this.decks.push(new Deck(deck.id, deck.owner, deck.name, deck.description, deck.public, cards));            
-
+            if(!this.decksContainsID(deck.id) && this.moveableDecks.findIndex( i => i.id == deck.id) == -1) {
+                this.decks.push(new Deck(deck.id, deck.owner, deck.name, deck.description, deck.public, cards));
+                console.log(cards)
+                // this.moveableDecks.push(new MoveableDeck(deck.id, deck.owner, deck.name, deck.description, deck.public, cards, 0, 0, 1));
             }
 
 
@@ -196,5 +200,24 @@ export default class Hub {
     
             return false;
     }
+
+    // search() {
+
+    //     if(this.searchValue != "") {
+
+    //         if(this.currentSide == "cards") {
+    //             this.activeCards = this.cards.filter((card) => {
+    //                 return card.term.includes(this.searchValue) || card.definition.includes(this.searchValue);
+    //         });
+
+    //     } else if(this.currentSide == "decks") {
+
+    //         active
+
+    //     }
+
+
+    // }
+
 
 }

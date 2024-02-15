@@ -31,7 +31,8 @@ const ExcludeAssetsPlugin = require('webpack-exclude-assets-plugin');
 const MergeIntoSingle = require('webpack-merge-and-include-globally/index');
 
 // DEVELOPMENT VARS
-const dev = false;
+const dev = true;
+console.log(dev);
 const demo = null;
 
 // CORE PATHS

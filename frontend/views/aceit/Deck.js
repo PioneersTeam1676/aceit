@@ -15,6 +15,8 @@ export class Deck {
     dbPublic;
     /**@type {Array.<Card>} the list containing all the Cards in the deck */
     cards;
+    /**@type {String} the origin of the deck */
+    origin;
 
 
     /**
@@ -59,6 +61,28 @@ export class Deck {
 
         return deck;
     }
+
+    /**
+     * Updates the card on the backend based on the current instance variables of the deck
+     * @returns the response from the backend
+     */
+    refreshBackend() {
+        let update = request(`api/aceit_decks/${this.id}`, 'PUT', {
+            name: this.name,
+            description: this.description,
+            public: this.dbPublic,
+            cards: this.cards.map((c) => c.id).toString()
+        });
+
+        update.then((res) => {
+            return res;
+        }
+        ).catch((err) => {
+            return err;
+
+        });
+    }
+
 }
 
 export class MoveableDeck extends Deck {
@@ -95,6 +119,11 @@ export class MoveableDeck extends Deck {
          */
         constructor(id, owner, name, description, dbPublic, cards, left, top, zIndex) {
             super(id, owner, name, description, dbPublic, cards);
+            this.id = id;
+            this.name = name;
+            this.description = description;
+            this.dbPublic = dbPublic;
+            this.cards = cards;
             this.left = left;
             this.top = top;
             this.zIndex = zIndex;
@@ -113,7 +142,12 @@ export class MoveableDeck extends Deck {
             return new MoveableDeck(deck.id, deck.owner, deck.name, deck.description, deck.dbPublic, deck.cards, left, top, zIndex);
         }
 
+        /**
+         * Generate a new Deck from a previosly created MoveableDeck
+         * @returns {Deck} the new Deck created
+         */
+        getDeck() {
+            return new Deck(this.id, this.owner, this.name, this.description, this.dbPublic, this.cards);
+        }
 
-
-
-}
+    }

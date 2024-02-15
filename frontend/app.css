@@ -222,6 +222,15 @@ button:focus {
 	background-color: var(--aceit-bs-accent);
 	border: 5px solid var(--aceit-bs-accent);
 }
+.aceit-button-tertiary, .aceit-button-tertiary:active, .aceit-button-tertiary:focus {
+	background-color: var(--aceit-tertiary);
+	border: 5px solid var(--aceit-tertiary);
+}
+
+.aceit-button-tertiary:hover {
+	background-color: var(--aceit-bs-tertiary);
+	border: 5px solid var(--aceit-bs-tertiary);
+}
 
 
 .aceit-marketplace {
