@@ -42,7 +42,7 @@
         {/if}
 
         <div class="aceit-header-menu">
-            <a href="/#/aceit/Hub">
+            <a href="/#/aceit/hubbeta">
                 <button class="aceit-button {tab==0 ? "curTab" : ""}" type="home-button"><i class="fa-solid fa-house"></i>Inventory</button>
             </a>
 

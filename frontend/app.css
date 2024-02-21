@@ -11,6 +11,7 @@
 	--aceit-secondary: #9DC88D;
 	--aceit-tertiary: #164A41;
 	--aceit-accent: #e5aa4a;
+	--aceit-cream: #f7e5c3;
 	/* bs meaning brightness shift, usage for hover effects */
 	--aceit-bs-gray: #ccc;
 	--aceit-bs-primary: #4d914e;
@@ -18,6 +19,7 @@
 	--aceit-bs-tertiary: #176357;
 	--aceit-bs-accent: #ffba4a;
 	--aceit-bs-red: #8a2121;
+	--aceit-bs-cream: #e0cda9;
 }
 
 html, body {

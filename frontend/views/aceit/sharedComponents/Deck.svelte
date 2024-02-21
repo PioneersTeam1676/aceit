@@ -41,13 +41,13 @@
 
         {#if popup}
 
-        <div class="popup">
+        <div class="popup" draggable="false">
             <h1>Launch </h1>
-            <button class="aceit-button aceit-button-primary" on:click={() => {launch(deck, 'flashcards')}}>Flashcards</button>
-            <button class="aceit-button aceit-button-primary">Memory</button>
-            <button class="aceit-button aceit-button-primary">Learn</button>
-            <button class="aceit-button aceit-button-primary" on:click={() => {launch(deck, 'hangman')}}>Frog Escape</button>
-            <button class="aceit-button aceit-button-primary">Boss Battle</button>
+            <button class="aceit-button aceit-button-secondary" on:click={() => {launch(deck, 'flashcards')}}>Flashcards</button>
+            <button class="aceit-button aceit-button-secondary" on:click={() => {launch(deck, 'memory')}}>Memory</button>
+            <button class="aceit-button aceit-button-secondary" on:click={() => {launch(deck, 'learn')}}>Learn</button>
+            <button class="aceit-button aceit-button-secondary" on:click={() => {launch(deck, 'hangman')}}>Frog Escape</button>
+            <!-- <button class="aceit-button aceit-button-primary" on:click={() => {launch(deck, 'bossbattle')}}>Boss Battle</button> -->
             <!-- <button on:click={() => {popup = false}}>Bye</button> -->
         </div>
 
@@ -107,21 +107,6 @@
 .item-title {
     overflow-x: visible;
 }
-.popup {
-    position: absolute;
-    top: 10%;
-    left: 105%;
-    background-color: aqua;
-    width: 12rem;
-    height: fit-content;
-    z-index: 1000;
-    animation: popup 0.5s ease-out;
-    border-radius: 5px;
-    padding: 0.25rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-}
 @keyframes pop-up {
         0% {
           transform: scale(0);
@@ -135,5 +120,21 @@
           opacity: 1;
         }
 }
+.popup {
+    position: absolute;
+    top: 10%;
+    left: 105%;
+    background-color: var(--aceit-primary);
+    width: 12rem;
+    height: fit-content;
+    z-index: 1000;
+    animation: popup 0.5s ease-out;
+    border-radius: 5px;
+    padding: 0.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
 
 </style>

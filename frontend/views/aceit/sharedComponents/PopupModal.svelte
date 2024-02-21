@@ -1,7 +1,15 @@
 <script>
-	export let showModal, onConfirm, onClose; // boolean, function
 
-	let dialog; // HTMLDialogElement
+	/** @type {Boolean} */
+	export let showModal;
+	/** @type {Function}*/
+	export let onConfirm;
+	/** @type {Function}*/
+	export let onClose;
+
+	
+	/** @type {HTMLDialogElement}*/
+	let dialog;
 
 	$: if (dialog && showModal) dialog.showModal();
 </script>

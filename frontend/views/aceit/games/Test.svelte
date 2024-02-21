@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<!-- <script context="module" lang="ts">
     let x: string = "fartz";
 </script>
 
@@ -6,4 +6,4 @@
     let x = 9;
 </script>
 
-{x}
+{x} -->

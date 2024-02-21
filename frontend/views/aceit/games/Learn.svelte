@@ -2,30 +2,58 @@
 
     import Header from '../sections/Header.svelte';
     import Footer from '../sections/Footer.svelte';
+    import { load } from '../../utils.js';
 
-    let quizlet_cards = [
-      {'term': 'Faire des châteaux de sable', 'definition': 'To make sandcastles'},
-      {'term': 'Jouer à la poupée', 'definition': 'To play with dolls'},
-      {'term': 'Sauter à la corde', 'definition': 'Jumprope'},
-      {'term': 'Faire du manège', 'definition': 'To ride rides at the fair'},
-      {'term': 'Jouer à chat perché', 'definition': 'To play tag'},
-      {'term': 'Faire de la balançoire', 'definition': 'To go on the swings'},
-    //   {'term': 'Jouer à la marelle', 'definition': 'To play hopscotch'},
-    //   {'term': 'Jouer au train électrique', 'definition': 'To play with an electric train'},
-    //   {'term': 'Jouer au ballon', 'definition': 'To play ball'},
-    //   {'term': 'Grimper aux arbres', 'definition': 'To climb trees'},
-    //   {'term': 'Jouer aux dames', 'definition': 'To play checkers'},
-    //   {'term': 'Jouer aux petits voitures', 'definition': 'To play with cars'},
-    //   {'term': 'Aller au cirque', 'definition': 'To go to the circus'},
-    //   {'term': 'Faire des farces', 'definition': 'To play pranks'},
-    //   {'term': 'Regarder des dessins animés', 'definition': 'To watch cartoons'},
-    //   {'term': 'Collectionner des timbres', 'definition': 'To collect stamps'},
-    //   {'term': 'Jouer aux billes', 'definition': 'To play marbles'},
-    //   {'term': 'Faire de la bascule', 'definition': 'To go on the see-saw'},
-    //   {'term': 'Sauter sur un trampoline', 'definition': 'To jump on the trampoline'},
-    //   {'term': 'Jouer dans le parc', 'definition': 'To play in the park'},
-    //   {'term': 'Jouer à faire semblant', 'definition': 'To play pretend'}
-    ];
+    /**
+     * 
+     * @param {Deck} deck
+     * @returns {Array.<Object>}
+     */
+    const learnCardGen = (deck) => {
+
+        let cards = [];
+
+        for(let i = 0; i < deck.cards.length; i++) {
+            
+            let oldCard = deck.cards[i];
+
+            let newCard = {
+                term: oldCard.term,
+                definition: oldCard.definition
+            }
+
+            cards.push(newCard);
+        }
+
+        return cards;
+
+    }
+
+    let quizlet_cards = load(learnCardGen);
+
+    // let quizlet_cards = [
+    //   {'term': 'Faire des châteaux de sable', 'definition': 'To make sandcastles'},
+    //   {'term': 'Jouer à la poupée', 'definition': 'To play with dolls'},
+    //   {'term': 'Sauter à la corde', 'definition': 'Jumprope'},
+    //   {'term': 'Faire du manège', 'definition': 'To ride rides at the fair'},
+    //   {'term': 'Jouer à chat perché', 'definition': 'To play tag'},
+    //   {'term': 'Faire de la balançoire', 'definition': 'To go on the swings'},
+    // //   {'term': 'Jouer à la marelle', 'definition': 'To play hopscotch'},
+    // //   {'term': 'Jouer au train électrique', 'definition': 'To play with an electric train'},
+    // //   {'term': 'Jouer au ballon', 'definition': 'To play ball'},
+    // //   {'term': 'Grimper aux arbres', 'definition': 'To climb trees'},
+    // //   {'term': 'Jouer aux dames', 'definition': 'To play checkers'},
+    // //   {'term': 'Jouer aux petits voitures', 'definition': 'To play with cars'},
+    // //   {'term': 'Aller au cirque', 'definition': 'To go to the circus'},
+    // //   {'term': 'Faire des farces', 'definition': 'To play pranks'},
+    // //   {'term': 'Regarder des dessins animés', 'definition': 'To watch cartoons'},
+    // //   {'term': 'Collectionner des timbres', 'definition': 'To collect stamps'},
+    // //   {'term': 'Jouer aux billes', 'definition': 'To play marbles'},
+    // //   {'term': 'Faire de la bascule', 'definition': 'To go on the see-saw'},
+    // //   {'term': 'Sauter sur un trampoline', 'definition': 'To jump on the trampoline'},
+    // //   {'term': 'Jouer dans le parc', 'definition': 'To play in the park'},
+    // //   {'term': 'Jouer à faire semblant', 'definition': 'To play pretend'}
+    // ];
 
     let mastery = [];
 
