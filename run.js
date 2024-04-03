@@ -2,7 +2,7 @@ const { spawn } = require('node:child_process');
 
 
 
-const codespace = spawn(/^win/.test(process.platform) ? 'npm run dev' : 'npm', ['run',  'codespace'], {
+const codespace = spawn(/^win/.test(process.platform) ? 'npm run dev --compiler-warnings "css-unused-selector:ignore,unused-export-let:ignore"' : 'npm', ['run',  'codespace', '--compiler-warnings "css-unused-selector:ignore,unused-export-let:ignore"'], {
     detached: false
 });
 

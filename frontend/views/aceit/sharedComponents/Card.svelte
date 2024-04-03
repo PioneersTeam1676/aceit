@@ -3,12 +3,28 @@
 
 <script>
     
-    export let title, subtitles, definition, style;
+    export let title, subtitles, definition, style; 
+    export let extraFunc, extraClass, extraText;
 </script>
 
 <div class="card" style="{style != undefined ? style : ''}">
+
+
+
+        
     <div class="item-title">
-        <span class="title">{title}</span>
+        <div class="title-group">
+
+            <span class="title">{title}</span>
+
+
+            {#if extraFunc != undefined && extraText != undefined} 
+        
+                <button class="{extraClass != undefined ? extraClass : ""}" on:click={extraFunc} style="width: min-content; height: min-content;">{extraText}</button>
+            
+            {/if}
+
+        </div>
         <span class="definition">{definition}</span>
         <div class="subtitle-group">
 
@@ -68,5 +84,11 @@
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
+    }
+    .title-group {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
     }
 </style>

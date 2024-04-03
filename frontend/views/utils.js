@@ -1,8 +1,32 @@
+import { Card } from './aceit/Card.js'
+
 /**
- * @callback requestCallback
- * @param {Object} res the data that is returned by the server
  * 
+ * @param {Deck} deck the deck to launch the game with
+ * @param {String} game the game to launch
  */
+export const launch = (deck, game) => {
+
+    localStorage.setItem('current-game-deck', JSON.stringify(deck));
+
+    window.location.href = `${window.location.href.substring(0, window.location.href.indexOf('aceit')+5)}/${game}`
+
+    
+
+}
+
+/**
+ * @param {Function} cardGen the function to generate the cards for the game
+ * @returns {Array.<Card>} the deck to load the game with
+ */
+export const load = (cardGen) => {
+
+    const deck = JSON.parse(localStorage.getItem('current-game-deck'));
+
+    return cardGen(deck);
+
+}
+
 
 /**
  * Make a request to the server
@@ -41,7 +65,7 @@
  * });
  * // this example uses a combination of both variables and literal values but notice that they correspond to the name of the variable in the backend via the term to the left of the colon
  */
-const request = async (path, method, body) => {
+export const request = async (path, method, body) => {
 
     const res = await fetch(path, {
         method: method,
@@ -55,16 +79,10 @@ const request = async (path, method, body) => {
     const text = await res.text();
 
     if(res.ok) {
-
-        try {
-            return await JSON.parse(text);
-        } catch {
-            return text;
-        }
+        return await JSON.parse(text);
     } else {
         throw new Error(text);
     }
 
 }
 
-export default request;

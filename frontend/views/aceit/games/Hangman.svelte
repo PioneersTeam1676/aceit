@@ -13,84 +13,123 @@
     import frogVideo4 from '../../../media/aceit/frogGifPart4.gif';
     import frogVideo5 from '../../../media/aceit/frogGifPart5.gif';
     import frogBase from '../../../media/aceit/AllAlive.jpg';
+    import { Deck } from '../Deck.js';
+    import { Card } from '../Card.js';
+    import { load } from "../../utils.js";
 
-    let cards = [
-        {
-          id: 0,
-          term: "Floppa",
-          Definition: "Big",
-          IsShowingTerm:true,
-          DisplayText:"Floppppppa",
-          State: {
-              Flipped: false,
-              Matched: false
-          }
+    /**
+     * @param {Deck} deck
+     * @returns {Array.<Object>}
+     */
+    const hangmanCardGen = (deck) => {
 
-        },
-        {
-          id: 1,
-          term: "cheese",
-          Definition: "Tasty milk product",
-          IsShowingTerm:true,
-          DisplayText:"Tasty milk product",
+      let cards = [];
+
+      for(let i = 0; i < deck.cards.length; i++) {
+
+        let oldCard = deck.cards[i];
+
+        let newCard = {
+          id: oldCard.id,
+          term: oldCard.term,
+          Definition: oldCard.definition,
+          // IsShowingTerm:true,
+          // DisplayText: oldCard.term,
           State: {
               Flipped: false,
               Matched: false
           }
-        },
-        {
-          id: 2,
-          term: "two terms",
-          Definition: "dos wordos",
-          IsShowingTerm:true,
-          DisplayText:"Dos wordos",
-          State: {
-              Flipped: false,
-              Matched: false
-          }
-        },
-        // {
-        //   id: 1,
-        //   term: "Pneumonoultramicroscopicsilicovolcanoconiosis",
-        //   Definition: "The longest Word",
-        //   IsShowingTerm:false,
-        //   DisplayText:"Big",
-        //   State: {
-        //       Flipped: false,
-        //       Matched: false
-        //   }
-        // },      {
-        //   id: 3,
-        //     term: "DefFloooooopaenition",
-        //     Definition: "Shrimple",
-        //     IsShowingTerm:false,
-        //     DisplayText:"Shrimple",
-        //     State: {
-        //         Flipped: false,
-        //         Matched: false
-        //     }
-        // },    {
-        //   id: 4,
-        //     term: "Big Sad",
-        //     Definition: "My Mood",
-        //     IsShowingTerm:true,
-        //     DisplayText:"Big Sad",
-        //     State: {
-        //         Flipped: false,
-        //         Matched: false
-        //     }
-        // },    {
-        //   id: 5,
-        //     term: "Big Sad",
-        //     Definition: "My Mood",
-        //     IsShowingTerm:false,
-        //     DisplayText:"My Mood",
-        //     State: {
-        //         Flipped: false,
-        //         Matched: false
-        //     }
-        // }
-    ];
+        }
+
+        cards.push(newCard);
+      }
+
+      return cards;
+
+    }
+
+
+
+    let cards = load(hangmanCardGen);
+
+
+    // let cards = [
+    //     {
+    //       id: 0,
+    //       term: "Floppa",
+    //       Definition: "Big",
+    //       IsShowingTerm:true,
+    //       DisplayText:"Floppppppa",
+    //       State: {
+    //           Flipped: false,
+    //           Matched: false
+    //       }
+
+    //     },
+    //     {
+    //       id: 1,
+    //       term: "cheese",
+    //       Definition: "Tasty milk product",
+    //       IsShowingTerm:true,
+    //       DisplayText:"Tasty milk product",
+    //       State: {
+    //           Flipped: false,
+    //           Matched: false
+    //       }
+    //     },
+    //     {
+    //       id: 2,
+    //       term: "two terms",
+    //       Definition: "dos wordos",
+    //       IsShowingTerm:true,
+    //       DisplayText:"Dos wordos",
+    //       State: {
+    //           Flipped: false,
+    //           Matched: false
+    //       }
+    //     },
+    //     // {
+    //     //   id: 1,
+    //     //   term: "Pneumonoultramicroscopicsilicovolcanoconiosis",
+    //     //   Definition: "The longest Word",
+    //     //   IsShowingTerm:false,
+    //     //   DisplayText:"Big",
+    //     //   State: {
+    //     //       Flipped: false,
+    //     //       Matched: false
+    //     //   }
+    //     // },      {
+    //     //   id: 3,
+    //     //     term: "DefFloooooopaenition",
+    //     //     Definition: "Shrimple",
+    //     //     IsShowingTerm:false,
+    //     //     DisplayText:"Shrimple",
+    //     //     State: {
+    //     //         Flipped: false,
+    //     //         Matched: false
+    //     //     }
+    //     // },    {
+    //     //   id: 4,
+    //     //     term: "Big Sad",
+    //     //     Definition: "My Mood",
+    //     //     IsShowingTerm:true,
+    //     //     DisplayText:"Big Sad",
+    //     //     State: {
+    //     //         Flipped: false,
+    //     //         Matched: false
+    //     //     }
+    //     // },    {
+    //     //   id: 5,
+    //     //     term: "Big Sad",
+    //     //     Definition: "My Mood",
+    //     //     IsShowingTerm:false,
+    //     //     DisplayText:"My Mood",
+    //     //     State: {
+    //     //         Flipped: false,
+    //     //         Matched: false
+    //     //     }
+    //     // }
+    // ];
 
   let game_state = "start";
 
@@ -223,7 +262,7 @@
      }
         if(winning)
        {
-        index=index+1;
+        index++;
         if(cards[index]==null)
         {
          console.log("DEBUGGING");
@@ -319,9 +358,9 @@
   </div>
 {:else if game_state==="won"}
   <div class="aceit-win-screen">
-      <h1>You have completed the Hangman.</h1>
+      <h1>You have saved the frogs!</h1>
       <a href="/#/aceit/hangman">
-          <button>Play Again</button>
+          <button on:click={reset}>Play Again</button>
       </a>
   </div>
 {:else if game_state==="playing"}
@@ -363,7 +402,7 @@
 
               <table id="afterOptions">
               <tr>
-              <td class="afterTD"> <button class="afterButton" on:click={reset}>Retry</button></td>
+              <td class="afterTD"> <button class="afterButton">Retry</button></td>
                <td class="afterTD"> <button class="afterButton" onclick="window.location.href='/#/aceit/games';">Go Home</button></td>
               </tr>
             </table>

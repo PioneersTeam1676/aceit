@@ -7,9 +7,11 @@
   import { playCards } from '../../../js/stores.js'
   import API from '../../../js/api.js'
   import { MemoryCard } from '../../../js/cards.js';
+    import { load } from "../../utils";
 
-  const api = new API();
 
+
+  // **DO NOT DELETE ANY OF THESE COMMENTS THEY ARE VERY IMPORTANT**
 
   // Grant's Great Goals:
   // 1) Figure out what the heck is happening. | DONE! Easy peasy lemon skweezy
@@ -35,14 +37,16 @@
   // Larry's Leisurely Labors:
 
   // Treshan's Tedious Toils:
+  // 1) college stuff :(
 
   // William's Wonderous Works:
 
+  // **DO NOT DELETE ANY OF THESE COMMENTS THEY ARE VERY IMPORTANT**
 
   let percentage = 0.75;
   let max_bar_height = 500;
 
-  let cards = [];
+  // let cards = [];
 
   const addCards = async (id, index) => {
 
@@ -58,6 +62,48 @@
 
     randomizeCards()
     }
+
+    const memoryCardLoad = (deck) => {
+
+      let cards = [];
+
+      for(let i = 0; i < deck.cards.length; i++) {
+
+        let oldCard = deck.cards[i];
+
+        let newTermCard = {
+          id: oldCard.id,
+          term: oldCard.term,
+          Definition: oldCard.definition,
+          IsShowingTerm: true,
+          DisplayText: oldCard.term,
+          State: {
+            Flipped: true,
+            Matched: false
+          }
+        }
+
+        let newDefCard = {
+          id: oldCard.id * -1,
+          term: oldCard.term,
+          Definition: oldCard.definition,
+          IsShowingTerm: false,
+          DisplayText: oldCard.definition,
+          State: {
+            Flipped: true,
+            Matched: false
+          }
+        }
+
+        cards.push(newTermCard);
+        cards.push(newDefCard);
+
+      }
+      return cards;
+
+    }
+
+    let cards = load(memoryCardLoad);
 
   //   cards = [
   //     {
@@ -361,8 +407,8 @@
 
   onMount(async () => {
     updateProgressBar(0);
-    console.log("hi");
-    $playCards.forEach(addCards);
+    // console.log("hi");
+    // $playCards.forEach(addCards);
     resetCards()
     randomizeCards();
 
@@ -426,7 +472,7 @@
                       <div class="card">
                         <div class="card-block">
                           <h4 class="card-title">{item.id}</h4>
-                          <h4 class="card-text">{item.displayText}</h4>
+                          <h4 class="card-text">{item.DisplayText}</h4>
                         </div>
                     </div>
                   </div>

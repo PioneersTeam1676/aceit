@@ -16,6 +16,7 @@
     import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
     import { FontLoader } from 'three/examples/jsm/loaders/FontLoader';
     import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js';
+    import { load as cardLoad } from '../../../utils.js'
 
 
 //     import { onMount } from 'svelte';
@@ -27,6 +28,30 @@ document.addEventListener("DOMContentLoaded", function() {
       THOMAS THE CARDS ARE HERE OKAY
       ┌( ͝° ͜ʖ͡°)=ε/̵͇̿̿/’̿’̿ ̿    (⌐■_■)︻╦╤─ (╥﹏╥)
     */
+
+    // const bossBattleLoad = (deck: any) => {
+
+    //   let cards = [];
+
+    //   for(let i = 0; i < deck.cards.length; i++) {
+
+    //     let oldCard = deck.card[i];
+
+    //     let newCard = {
+    //       term: oldCard.term,
+    //       definition: oldCard.definition
+    //     }
+
+    //     cards.push(newCard);
+
+    //   }
+
+    //   return cards;
+
+    // }
+
+    // let quizlet_cards = cardLoad(bossBattleLoad);
+
     let quizlet_cards = [
       {'term': 'Faire des châteaux de sable', 'definition': 'To make sandcastles'},
       {'term': 'Jouer à la poupée', 'definition': 'To play with dolls'},

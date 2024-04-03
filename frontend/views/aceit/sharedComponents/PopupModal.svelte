@@ -1,7 +1,17 @@
 <script>
-	export let showModal, onConfirm, onClose; // boolean, function
 
-	let dialog; // HTMLDialogElement
+	/** @type {Boolean} */
+	export let showModal;
+	/** @type {Function}*/
+	export let onConfirm;
+	/** @type {Function}*/
+	export let onClose;
+	/**@type {String}*/
+	export let style;
+
+	
+	/** @type {HTMLDialogElement}*/
+	let dialog;
 
 	$: if (dialog && showModal) dialog.showModal();
 </script>
@@ -9,8 +19,9 @@
 <!-- svelte-ignore a11y-click-events-have-key-events a11y-no-noninteractive-element-interactions -->
 <dialog
 	bind:this={dialog}
-	on:close={() => (showModal = false)}
+	on:close={() => {showModal = false; onClose()}}
 	on:click|self={() => dialog.close()}
+	style="{style}"
 >
 	<!-- svelte-ignore a11y-no-static-element-interactions -->
 	<div on:click|stopPropagation>
@@ -25,7 +36,7 @@
 		<div class="button-row">
 			<button class="confirm" on:click={() => {onConfirm(); dialog.close();}}>Confirm</button>
 			<!-- svelte-ignore a11y-autofocus -->
-			<button class="cancel" autofocus on:click={() => {onClose(); dialog.close();}}>Cancel</button>
+			<button class="cancel" autofocus on:click={() => { onClose(); dialog.close()}}>Cancel</button>
 		</div>
 	</div>
 </dialog>
