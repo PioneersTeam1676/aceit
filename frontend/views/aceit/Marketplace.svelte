@@ -6,10 +6,15 @@
     import PopupModal from "./sharedComponents/PopupModal.svelte";
     import { fade } from "svelte/transition";
     import "@fortawesome/fontawesome-free/css/all.min.css";
+    import { Deck } from "./Deck.js";
+    import { Card as JSCard } from "./Card.js"
 
     // unused imports, kept so I don't forget what they are
     import { playCards } from "../../js/stores.js";
     import { get } from "svelte/store";
+    import request from "../api.js";
+
+    let USER_ID = localStorage.getItem("user_id");
 
     // placeholder data
     const allCards = [
@@ -78,7 +83,17 @@
         },
     ];
 
-    const allDecks = [
+    let allDecks = [];
+
+    let loadAllDecks = request(`api/aceit_decks/getNDecks/${3}`, 'GET');
+    
+
+    loadAllDecks.then((res) => {
+        
+        console.log("Load res: \n"+res)
+    });
+
+    const allDecksOld = [
         {
             id: '358172098571028371823',
             name: "My chemistry set",
@@ -238,6 +253,9 @@
     let showModal = false;
     let showConfigModal = false;
 
+    let modalData;
+    let modalFunction;
+
     function popup(title, vmc) {
         if (showModal) return; // can't open the modal while one is already open :thumbs-up:
         setVMN(title);
@@ -247,11 +265,15 @@
 
     function popupAddDeck(deck) {
         let content = `Add deck <i>${deck.name}</i>?`;
+        modalData = deck;
+        modalFunction = addDeckToHub;
         popup("Add Deck to Collection", content);
     }
 
     function popupViewDeck(deck) {
         let content = "No data available yet. Pls make backend 🥺";
+        modalData = deck;
+        modalFunction = viewDeck;
         popup(`Viewing deck <i>${deck.name}</i>`, content);
     }
 
@@ -260,6 +282,8 @@
         myDecks.forEach(deck => {
             content += `\n\t<option value="${deck.id}">${deck.name}</option>`;
         });
+        modalData = card;
+        modalFunction = addCard;
         popup(`Add Card <i>${card.name}</i> to a Deck`, `${content}\n</select>`);
     }
 
@@ -267,12 +291,37 @@
         showConfigModal = true;
         popup("Search Settings", "Settings will go here.");
     }
+
+    const addDeckToHub = () => {
+        
+        let newDeck = request('api/aceit_decks/', 'POST', {
+            owner: modalData.id,
+            name: modalData.name, 
+            description: modalData.description,
+            cards: modalData.cards,
+            public: modalData.dbPublic
+        });
+
+        newDeck.then((res) => {
+            showConfigModal = false;
+            
+        })
+
+    }
+
+    const viewDeck = () => {
+
+    }
+
+    const addCard = () => {
+
+    }
 </script>
 
 <main class="bg-white">
     <Header tab=1 />
 
-    <PopupModal bind:showModal onConfirm={() => {showConfigModal = false;}} onClose={() => {showConfigModal = false;}}>
+    <PopupModal bind:showModal onConfirm={modalFunction} onClose={() => {showConfigModal = false;}}>
         <div slot="header">
             <div bind:this={viewModalNameElement}></div>
         </div>
@@ -301,6 +350,10 @@
         <button class="input-button" on:click={popupConfig}><i class="fa-solid fa-gear"></i></button>
     </div>
 
+    {#await loadAllDecks}
+        <p>Loading Decks...</p>
+    {:then thingThatWontBeUsed} 
+        
     <div class="results">
         <!-- Card results -->
         <div>
@@ -331,7 +384,7 @@
             {/if}
             <div id="deck-result-container">
                 {#each deckResults as deck}
-                    <Card title="{deck.name}" subtitles="{[deck.count + ' cards']}">
+                    <Card title="{deck.name}" subtitles="{[deck.cards.length + ' cards']}">
                         <button on:click={() => {popupAddDeck(deck)}} class="accent-button deck-add">
                             <i class="fa-solid fa-plus"></i> Add Deck
                         </button>
@@ -343,6 +396,8 @@
             </div>
         </div>
     </div>
+    {/await}
+
 
     <Footer />
 </main>

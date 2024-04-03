@@ -17,7 +17,9 @@
 
     /** @type {Hub} */
     let hub;
-    hub = new Hub(-1);    
+    hub = new Hub(-1);
+
+    hub.loadCookies();
 
     async function handleClick() {
         hub.activeModal = true;
@@ -84,6 +86,8 @@
          */
         let data = JSON.parse(ev.dataTransfer.getData("text/plain"));
 
+        let containerDiv = ev.target.closest('.hub-sidebar-decks-dropzone')
+
         if(data.origin == "sidebar-deck") {
 
             if(ev.target.id == "hub-field") {
@@ -103,7 +107,7 @@
 
 
 
-    } else if(data.origin == "field-deck") {
+    } else if(data.origin == "field-deck" || undefined) {
 
         // let fieldDeckElement = document.getElementById(`field-deck-${data.id}`);
 
@@ -154,7 +158,7 @@
     */
     function dragCardEnd(ev) {
         ev.preventDefault();
-        console.log(ev);
+        // console.log(ev);
 
         let data = JSON.parse(ev.dataTransfer.getData("text/plain"));
 
@@ -172,6 +176,8 @@
                 let card = new Card(data.id, data.owner, data.term, data.definition, data.image, data.dbPublic);
 
                 let deck = hub.moveableDecks[deckIndex];
+                console.log("Deck: ")
+                console.log(deck)
 
 
 
@@ -191,11 +197,6 @@
                     shake(containerDiv.id);
 
                 }
-
-                
-
-
-
 
                 hub.moveableDecks = hub.moveableDecks;
 
@@ -287,6 +288,109 @@
 
     }
 
+    function closeModal() {
+        hub.activeModal = false;
+        console.log(hub.activeModal);
+    }
+
+    /**
+     * @param {Event} ev 
+    */
+    async function createCard() {
+
+        console.log(hub.newCard);
+
+        const newCard = request('api/aceit_cards/', 'POST', {
+            owner: hub.userID,
+            term: hub.newCard.term,
+            definition: hub.newCard.def,
+            public: false
+        });
+
+        hub.newCard.term = "";
+        hub.newCard.def = "";
+        hub.newCard.public = false;
+
+        newCard.then((res) => {
+
+            hub.cards.push(new Card(res.id, res.owner, res.term, res.definition, res.image, res.public));
+
+            if(hub.newCard.deck != "-1") {
+
+
+                // checks if hub.decks contains the deck that is being updated and if it does then get the cards for that deck, otherwise search through hub.moveableDecks and get the cards from that deck
+
+
+                let oldCards = hub.decks.find((d) => d.id == hub.newCard.deck) != undefined ? hub.decks.find((d) => d.id == hub.newCard.deck).cards.map(c => c.id) : hub.moveableDecks.find((d) => d.id == hub.newCard.deck).cards.map((c) => c.id);
+
+                console.log(oldCards);
+
+                    const addToDeck = request(`/api/aceit_decks/${hub.newCard.deck}`, 'PUT', 
+                    {
+                        cards: `${oldCards}, ${res.id}`
+                    }
+                    );
+
+                    addToDeck.then((deckRes) => {
+                        let deckIndex = hub.decks.findIndex((d) => d.id == deckRes.id);
+                        // console.log(deckRes.message);
+                        // console.log(deckRes.message.match(/([0-9])\w*/g));
+                        let activeDecksIndex = hub.moveableDecks.findIndex((d) => d.id == deckRes.message.match(/([0-9])\w*/g)[0]);
+
+
+
+                        console.log(deckRes)
+
+                        if(deckIndex != -1) {
+                            hub.decks[deckIndex].cards.push(hub.cards.find((c) => c.id == res.id));
+                            hub.decks = hub.decks;
+                        } else if(activeDecksIndex != -1) {
+                            hub.moveableDecks[activeDecksIndex].cards.push(hub.cards.find((c) => c.id == res.id));
+                            hub.moveableDecks = hub.moveableDecks;
+                        }
+
+                    })
+
+                }
+
+
+        });
+
+        
+
+    }
+
+    function createDeck() {
+        const newDeck = request('api/aceit_decks/', 'POST', {
+            owner: hub.userID,
+            name: hub.newDeck.name,
+            description: hub.newDeck.description,
+            public: hub.newDeck.dbPublic,
+            cards: ''
+        });
+
+        newDeck.then((res) => {
+            console.log(res.owner)
+            hub.decks.push(new Deck(res.id, res.owner, res.name, res.description, res.public, res.cards));
+            hub.decks = hub.decks;
+        })
+    }
+
+    $: {
+            localStorage.setItem("hub-active-decks", JSON.stringify(hub.moveableDecks))
+            console.log(localStorage.getItem("hub-active-decks"));
+        }
+    
+
+
+
+    onMount(() => {
+        hub.loadDecks({owner: hub.userID});
+
+
+        hub.moveableDecks = hub.moveableDecks;
+    })
+
 
 </script>
 
@@ -295,21 +399,102 @@
     <Header/>
 
 
-    <button on:click={handleClick} style="position: absolute;">thingy</button>
+    <!-- <button on:click={handleClick} style="position: absolute;">thingy</button> -->
 
     <!-- the main container for the hub -->
     <div class="hub-container">
+        <!-- {hub.activeModal} -->
 
         {#if hub.activeModal}
 
-            <PopupModal showModal={hub.activeModal} >
+            <PopupModal showModal={hub.activeModal} onClose={() => {closeModal()} } onConfirm={() => {closeModal()}} style={"background-color: var(--aceit-primary); border-radius: 1rem;"}>
 
                 <div slot="header">
-                    <h1>New {hub.currentSide == "cards" ? "Card" : "Deck"}</h1>
+                    <h1 style="text: var(--aceit-tertiary);">New {hub.currentSide == "cards" ? "Card" : "Deck"}</h1>
                 </div>
 
-                <div slot="content">
-                    <p>Content</p>
+                <div slot="content" style="text: var(--aceit-tertiary);">
+
+                    {#if hub.currentSide == "cards"}
+
+                    <form on:submit|preventDefault={createCard}>
+
+                        <label for="term">Term: </label>
+                        <br/>
+
+                        <input type="text" name="term" required bind:value={hub.newCard.term}/>
+                        <br/>
+
+                        <label for="def">Definition: </label>
+                        <br/>
+
+                        <textarea name="def" rows="3" required bind:value={hub.newCard.def}></textarea>
+
+                        <br/>
+                        <label for="public">Public: </label>
+                        <br/>
+                        <input type="checkbox" bind:checked={hub.newCard.dbPublic}/>
+                        <br/>
+
+                        <label for="deck">Add to Deck: </label>
+                        <select name="deck" bind:value={hub.newCard.deck}>
+
+                            <option value="-1"></option>
+
+                            {#each hub.decks as deck}
+
+                                <option value="{deck.id}">{deck.name}</option>
+
+                            {/each}
+
+                            {#each hub.moveableDecks as deck}
+
+                                <option value="{deck.id}">{deck.name}</option>
+
+                            {/each}
+
+                        </select>
+
+                        <br/>
+
+                        <label for="create"></label>
+                        <br>
+
+                        <button type="submit" name="create">Create</button>
+
+                    </form>
+
+                    {:else}
+
+                    <form on:submit|preventDefault={createDeck}>
+
+                        <label for="deck-name">Name: </label>
+                        <br/>
+
+                        <input type="text" name="deck-name" required bind:value={hub.newDeck.name}/>
+                        <br/>
+
+                        <label for="deck-decription">Description: </label>
+                        <br/>
+
+                        <input type="text" name="deck-description" required bind:value={hub.newDeck.description}/>
+                        <br/>
+
+                        <label for="deck-public">Public: </label>
+                        <br/>
+
+                        <input type="checkbox" bind:checked={hub.newDeck.dbPublic}/>
+                        <br/>
+
+                        <label for="create"></label>
+                        <br/>
+
+                        <button type="submit" name="create">Create</button>
+
+                    </form>
+
+                    
+                    {/if}
                 </div>
             
             </PopupModal>
@@ -339,11 +524,10 @@
                     <button class="hub-controller-button" id="hub-controller-button-decks" data-selected="false" on:click={() => {refreshSideBar()} }>Decks</button>
                 </div>
                 <input type="search" placeholder="Search" bind:value={hub.searchValue}/>
-                <!-- {hub.searchValue} -->
             </div>
             
             <!-- new button - makes a popup modal that creates a new card or deck depending on the current selection -->
-                <button on:click={() => {}} class="aceit-button aceit-button-primary">New</button>
+                <button on:click={() => {hub.activeModal = true}} class="aceit-button aceit-button-primary">New</button>
 
             {#if hub.currentSide == "cards"}
 
@@ -389,7 +573,8 @@
 
             {:else if hub.currentSide == "decks"}
 
-            
+            <div class="hub-sidebar-decks-dropzone">
+
             
             {#await hub.decks.length == 0 && hub.moveableDecks == 0 ? hub.loadDecks({owner: hub.userID}) : Promise.resolve()}
                 <p>Loading Decks...</p>
@@ -425,6 +610,9 @@
                     
                     
                     {/await}
+
+            </div>
+
                     
                     
                     
@@ -451,12 +639,12 @@
     }
 
     .hub-field {
-        background-color: cadetblue;
+        background-color: var(--aceit-secondary);
         flex-grow: 4;
     }
 
     .hub-sidebar {
-        background-color: chocolate;
+        background-color: var(--aceit-bs-primary);
         /* flex-grow: 1; */
         padding: 0.5rem;
         flex-shrink: 3;
@@ -475,7 +663,7 @@
     }
 
     .hub-controller {
-        background-color: blueviolet;
+        background-color: var(--aceit-accent);
         border-radius: 0.5rem;
         margin: 1.5rem;
         padding: 0.5rem;
@@ -496,12 +684,12 @@
         border-radius: 0.25rem;
     }
     .hub-controller-button[data-selected="false"] {
-        background-color: darkmagenta;
-        border-color: darkmagenta;
+        background-color: var(--aceit-tertiary);
+        border-color: var(--aceit-tertiary);
     }
     .hub-controller-button[data-selected="true"] {
-        background-color: fuchsia;
-        border-color: fuchsia;
+        background-color: var(--aceit-bs-primary);
+        border-color: var(--aceit-bs-primary);
     }
     .draggable {
         width: fit-content;
@@ -536,3 +724,48 @@
 
 
 </style>
+
+<!-- 
+     |\ | |  ||\ \ /(_~     |~)|_~|\/||_~|\/||~)|_~|~)
+     |~\|_|/\||~\ | ,_)     |~\|__|  ||__|  ||_)|__|~\
+
+        \ //~\| |    |\ |~)|_~    | ||\ ||/~\| ||_~
+         | \_/\_/    |~\|~\|__    \_/| \||\_X\_/|__
+
+      (J U S T   L I K E   E V E R Y O N E   E L S E)
+      _____         _____         _____         _____
+    .'     '.     .'     '.     .'     '.     .'     '.
+   /  o   o  \   /  o   o  \   /  o   o  \   /  o   o  \
+  |           | |           | |           | |           |
+  |  \     /  | |  \     /  | |  \     /  | |  \     /  |
+   \  '---'  /   \  '---'  /   \  '---'  /   \  '---'  /
+    '._____.'     '._____.'     '._____.'     '._____.'
+      _____         _____         _____         _____
+    .'     '.     .'     '.     .'     '.     .'     '.
+   /  o   o  \   /  o   o  \   /  o   o  \   /  o   o  \
+  |           | |           | |           | |           |
+  |  \     /  | |  \     /  | |  \     /  | |  \     /  |
+   \  '---'  /   \  '---'  /   \  '---'  /   \  '---'  /
+    '._____.'     '._____.'     '._____.'     '._____.'
+      _____         _____         _____         _____
+    .'     '.     .'     '.     .'     '.     .'     '.
+   /  o   o  \   /  o   o  \   /  o   o  \   /  o   o  \
+  |           | |           | |           | |           |
+  |  \     /  | |  \     /  | |  \     /  | |  \     /  |
+   \  '---'  /   \  '---'  /   \  '---'  /   \  '---'  /
+    '._____.'     '._____.'     '._____.'     '._____.'
+      _____         _____         _____         _____
+    .'     '.     .'     '.     .'     '.     .'     '.
+   /  o   o  \   /  o   o  \   /  o   o  \   /  o   o  \
+  |           | |           | |           | |           |
+  |  \     /  | |  \     /  | |  \     /  | |  \     /  |
+   \  '---'  /   \  '---'  /   \  '---'  /   \  '---'  /
+    '._____.'     '._____.'     '._____.'     '._____.'
+      _____         _____         _____         _____
+    .'     '.     .'     '.     .'     '.     .'     '.
+   /  o   o  \   /  o   o  \   /  o   o  \   /  o   o  \
+  |           | |           | |           | |           |
+  |  \     /  | |  \     /  | |  \     /  | |  \     /  |
+   \  '---'  /   \  '---'  /   \  '---'  /   \  '---'  /
+    '._____.'     '._____.'     '._____.'     '._____.'
+ -->

@@ -1,4 +1,5 @@
 const pi = require("../config/pi.config.js")(__filename);
+const sequelize = require("sequelize");
 const db = require("../main.js");
 const op = db.Sequelize.Op;
 
@@ -75,7 +76,7 @@ const Model = db[pi.obj];
 	    .then(num => {
 	      if (num == 1) {
 	        res.send({
-	          message: "Deck was updated successfully."
+	          message: `Deck with id of ${id} was updated successfully.`
 	        });
 	      } else {
 	        res.send({
@@ -136,5 +137,34 @@ const Model = db[pi.obj];
 			});
 		  });
 	  };
+
+	  exports.findNDecks = (req, res) => {
+		const n = req.params.n;
+
+		Model.findAll({ 
+		where: {
+			public: true,
+		}, 
+		limit: parseInt(n) || 0,
+		// order: db.conn.random(),
+	})
+		.then(data => {
+			if (data) {
+				console.log(owner);
+			  res.send(data);
+			} else {
+			  res.status(404).send({
+				message: `Cannot get ${n} decks.`
+			  });
+			}
+		})
+		.catch(err => {
+			res.status(500).send({
+				message: `Error retrieving ${n} decks because of ${err}!`
+			  });
+		})
+	  }
+
+	  
 
 /* END OF CONTROLLERS */

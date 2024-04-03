@@ -23,6 +23,9 @@ module.exports = app => {
 	  // Retrieve all Decks with specified owner
 	  Router.get("/owner/:owner", Controller.findOwner);
 
+	  // Retrieve a random assortment of n public decks
+	  Router.get("/getNDecks/:n", Controller.findNDecks);
+
       //
 
 	/* END OF ROUTES */

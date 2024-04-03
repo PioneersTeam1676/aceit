@@ -36,6 +36,8 @@ export default class Hub {
     currentSideElement;
     /**@type {Boolean} */
     activeModal;
+    /**@type {Object} */
+    newCard;
     
    
 
@@ -51,6 +53,8 @@ export default class Hub {
         this.currentSideElement = this.cards;
         this.movingDeck = 0;
         this.activeModal = false;
+        this.newCard = {};
+        this.newDeck = {};
 
         
 
@@ -126,14 +130,20 @@ export default class Hub {
             let cardIDS = deck.cards.split(",");
             console.log(cardIDS);
             let cards = [];
+            
 
             for(let i = 0; i < cardIDS.length; i++) {
 
-                if(!this.cardsContainsID(cardIDS[i])) {
-                    let card = await request(`api/aceit_cards/${cardIDS[i]}, 'GET`);
-                    this.cards.push(generateCardFromDB(card));
-                } else {
-                    cards.push(this.getCardWithID(cardIDS[i]));
+                if(cardIDS[i] != '') {
+ 
+                    if(!this.cardsContainsID(cardIDS[i])) {
+                        console.log("id: " + cardIDS[i])
+                        let card = await request(`api/aceit_cards/${cardIDS[i]}, 'GET`);
+                        this.cards.push(generateCardFromDB(card));
+                    } else {
+                        cards.push(this.getCardWithID(cardIDS[i]));
+                    }
+                    
                 }
 
                 
@@ -199,6 +209,26 @@ export default class Hub {
             }
     
             return false;
+    }
+
+    loadCookies() {
+
+        let decks = JSON.parse(localStorage.getItem("hub-active-decks"));
+        decks.map((d) => {
+            try {
+                d.cards = d.cards.split(',');
+            } catch {
+                d.cards = d.cards;
+            }
+
+            d = new MoveableDeck(d.id, d.owner, d.name, d.description, d.dbPublic, d.cards, d.left, d.top, d.zIndex);
+            console.log("AHHHH: ")
+            console.log(d)
+        });
+        
+        this.moveableDecks = decks;
+        this.userID = JSON.parse(localStorage.getItem("user_id"));
+
     }
 
 

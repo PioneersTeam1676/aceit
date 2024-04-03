@@ -56,8 +56,13 @@
         </div>
 
         <div class="aceit-header-profile">
-            <button style="margin-right: 5px;" class="aceit-button" type="home-button">Log In</button>
-            <button class="aceit-button aceit-button-primary" type="home-button">Sign Up</button>
+            <a href="/#/aceit/login">
+                <button style="margin-right: 5px;" class="aceit-button" type="home-button">Log In</button>
+            </a>
+
+            <a href="/#/aceit/signup">
+                <button class="aceit-button aceit-button-primary" type="home-button">Sign Up</button>
+            </a>
         </div>
     </nav>
 

@@ -18,7 +18,9 @@ const config = require("./config/db.config.js");
 
 const Sequelize = require("sequelize");
 
+
 // Establises connection with database
+
 const conn = new Sequelize(config.DB, config.USER, config.PASSWORD, {
 	host: config.HOST,
 	dialect: config.dialect,
@@ -36,6 +38,7 @@ const db = {};
 
 db.Sequelize = Sequelize;
 db.conn = conn;
+
 
 // Load models in model directory
 let modelsDir = path.join(__dirname, "models");

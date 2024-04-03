@@ -5,8 +5,6 @@
     
     export let title, subtitles, definition, style; 
     export let extraFunc, extraClass, extraText;
-
-    console.log(extraFunc);
 </script>
 
 <div class="card" style="{style != undefined ? style : ''}">
