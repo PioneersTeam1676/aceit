@@ -25,6 +25,9 @@
     import AceItLabelWidget from './views/aceit/widgets/LabelWidget.svelte'
     import AceItFilterWidget from './views/aceit/widgets/FilterWidget.svelte'
     import HubBeta from './views/aceit/HubBeta.svelte';
+    import Login from './views/aceit/Login.svelte';
+    import SignUp from './views/aceit/SignUp.svelte';
+
 
     import AceItTest from './views/aceit/games/Test.svelte'
 
@@ -55,6 +58,8 @@
             '/aceit/labelwidget' : AceItLabelWidget,
             '/aceit/filterwidget': AceItFilterWidget,
             '/aceit/hubbeta': HubBeta,
+            '/aceit/login': Login,
+            '/aceit/signup': SignUp,
 
             '/aceit/test': AceItTest,
 

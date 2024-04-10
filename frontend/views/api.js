@@ -1,4 +1,10 @@
 /**
+ * @callback requestCallback
+ * @param {Object} res the data that is returned by the server
+ * 
+ */
+
+/**
  * Make a request to the server
  * @param {String} path the path in the backend to the data
  * @param {String} method the method you want to run. GET, POST etc.
@@ -49,7 +55,12 @@ const request = async (path, method, body) => {
     const text = await res.text();
 
     if(res.ok) {
-        return await JSON.parse(text);
+
+        try {
+            return await JSON.parse(text);
+        } catch {
+            return text;
+        }
     } else {
         throw new Error(text);
     }
