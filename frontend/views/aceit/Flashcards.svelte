@@ -4,6 +4,7 @@
   import { playCards } from '../../js/stores.js';
   import API from '../../js/api.js';
   import { FlashCardsCard } from '../../js/cards.js';
+  import { load } from '../utils.js';
 
   import { onMount } from 'svelte';
 
@@ -11,12 +12,12 @@
   let unflip = false;
   let flipped = false;
   let answerWithTerm = true;
-
-  const api = new API();
-
-  let cards = [];
-
   let game_state = "start";
+
+  // const api = new API();
+
+  // let cards = [];
+
 
   //= [
 
@@ -64,29 +65,64 @@
   //       }
   //   ];
 
-  const addFlash = async (id, index) => {
+  
+  
+  // const addFlash = async (id, index) => {
+    
+    //     let res = await api.getCardById(id);
+    //     console.log(res);
+    
+    //     let card = new FlashCardsCard(res.id, res.term, res.definition, true, false, false);
+    //     cards.push(card);
+    //     console.log(card);
+    //     cards = cards;
+    
+    
+    //   }
+    
+    
+    // onMount(async () => {
+      //   console.log('hi')
+      //   // $playCards.forEach(addFlash);
+      
+      
+      
+      
+      // })
 
-      let res = await api.getCardById(id);
-      console.log(res);
 
-      let card = new FlashCardsCard(res.id, res.term, res.definition, true, false, false);
-      cards.push(card);
-      console.log(card);
-      cards = cards;
-
-
-    }
-
-  onMount(async () => {
-    console.log('hi')
-    $playCards.forEach(addFlash);
-
-
-
-
-  })
-
-  function onKeyPress(e){
+      const flashCardGen = (deck) => {
+    
+        let cards = [];
+    
+        for(let i = 0; i < deck.cards.length; i++) {
+    
+          let oldCard = deck.cards[i];
+    
+          let newCard = {
+            id: oldCard.id,
+            term: oldCard.term,
+            definition: oldCard.definition,
+            IsShowingTerm:true,
+            State: {
+                Flipped: false,
+                Matched: false
+            }
+          }
+    
+          cards.push(newCard);
+    
+        }
+    
+        return cards;
+    
+    
+    
+      }
+    
+      let cards = load(flashCardGen)
+      
+      function onKeyPress(e){
     if(e.keyCode == 32)//space key
     {
       e.preventDefault()

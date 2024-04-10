@@ -201,23 +201,8 @@ export default class Hub {
             return false;
     }
 
-    // search() {
 
-    //     if(this.searchValue != "") {
-
-    //         if(this.currentSide == "cards") {
-    //             this.activeCards = this.cards.filter((card) => {
-    //                 return card.term.includes(this.searchValue) || card.definition.includes(this.searchValue);
-    //         });
-
-    //     } else if(this.currentSide == "decks") {
-
-    //         active
-
-    //     }
-
-
-    // }
+    
 
 
 }

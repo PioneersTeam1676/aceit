@@ -19,7 +19,7 @@
 
     /**
      * @param {Deck} deck
-     * @returns {Array.<Card>}
+     * @returns {Array.<Object>}
      */
     const hangmanCardGen = (deck) => {
 

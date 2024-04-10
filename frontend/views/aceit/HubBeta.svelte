@@ -5,6 +5,7 @@
     import CardElement from './sharedComponents/Card.svelte';
     import Draggable from './sharedComponents/Draggable.svelte';
     import DeckElement from './sharedComponents/Deck.svelte';
+    import PopupModal from './sharedComponents/PopupModal.svelte';
 
     // import js stuff
     import { Card, MoveableCard } from "./Card.js";
@@ -34,6 +35,10 @@
     */
     function dragStart(ev, deck, origin) {
         ev.stopPropagation();
+
+        if(ev.target.id == "launch-popup") {
+            return;
+        }
 
         // set the data that is being transfered durring the drag
         deck.origin = origin;
@@ -262,7 +267,8 @@
     /**
      * 
      *  Activates the popup that lets the user launch a game from a deck
-     * 
+     * i dont think this does anything
+     * @deprecated
      * @param {Deck} deck
     */
     function playModal(deck) {
@@ -294,14 +300,19 @@
     <!-- the main container for the hub -->
     <div class="hub-container">
 
-        {#if hub.activeModal} 
+        {#if hub.activeModal}
 
-            <div class="modal-container">
-                <div style="background-color: aqua; width: 12rem; height: 16rem;">
-                    <h1>Modal</h1>
-                    <button on:click={() => {hub.activeModal = false}}>Close</button>
+            <PopupModal showModal={hub.activeModal} >
+
+                <div slot="header">
+                    <h1>New {hub.currentSide == "cards" ? "Card" : "Deck"}</h1>
                 </div>
-            </div>
+
+                <div slot="content">
+                    <p>Content</p>
+                </div>
+            
+            </PopupModal>
 
         {/if}
 
@@ -330,6 +341,9 @@
                 <input type="search" placeholder="Search" bind:value={hub.searchValue}/>
                 <!-- {hub.searchValue} -->
             </div>
+            
+            <!-- new button - makes a popup modal that creates a new card or deck depending on the current selection -->
+                <button on:click={() => {}} class="aceit-button aceit-button-primary">New</button>
 
             {#if hub.currentSide == "cards"}
 
