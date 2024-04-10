@@ -419,6 +419,10 @@
   {
     game_state = "playing";
   }
+
+  const refresh = () => {
+    window.location.reload();
+  }
   </script>
 
   <!-- END OF JAVA SCRIPT!!!! YAY!! Wait no not yay :( -->
@@ -436,7 +440,7 @@
   <div class="aceit-win-screen-secondary">
       <h1>You have completed the memory game.</h1>
       <a href="/#/aceit/memory">
-          <button>Play Again</button>
+          <button on:click={refresh}>Play Again</button>
       </a>
   </div>
 {:else if game_state==="playing"}

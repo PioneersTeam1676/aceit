@@ -130,8 +130,15 @@ export default class Hub {
             for(let i = 0; i < cardIDS.length; i++) {
 
                 if(!this.cardsContainsID(cardIDS[i])) {
-                    let card = await request(`api/aceit_cards/${cardIDS[i]}, 'GET`);
-                    this.cards.push(generateCardFromDB(card));
+
+                    try {
+
+                        
+                        let card = await request(`api/aceit_cards/${cardIDS[i]}, 'GET`);
+                        this.cards.push(generateCardFromDB(card));
+                    } catch(err) {
+                        console.log(err);
+                    }
                 } else {
                     cards.push(this.getCardWithID(cardIDS[i]));
                 }
