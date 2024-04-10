@@ -407,6 +407,7 @@
 
         {#if hub.activeModal}
 
+
             <PopupModal showModal={hub.activeModal} onClose={() => {closeModal()} } onConfirm={() => {closeModal()}} style={"background-color: var(--aceit-primary); border-radius: 1rem;"}>
 
                 <div slot="header">

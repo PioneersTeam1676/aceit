@@ -304,6 +304,10 @@
       return costs[s2.length];
     }
 
+    const reload = () => {
+        window.location.reload();
+    }
+
 </script>
 
 <main>
@@ -357,9 +361,7 @@
     {:else if question_type==="won"}
     <div class="aceit-win-screen">
         <h1>You have completed the learn mode.</h1>
-        <a href="/#/aceit/learn">
-            <button>Learn Again</button>
-        </a>
+            <button on:click={reload}>Learn Again</button>
     </div>
     {/if}
     <Footer />

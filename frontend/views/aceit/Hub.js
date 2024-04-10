@@ -134,16 +134,17 @@ export default class Hub {
 
             for(let i = 0; i < cardIDS.length; i++) {
 
-                if(cardIDS[i] != '') {
- 
-                    if(!this.cardsContainsID(cardIDS[i])) {
-                        console.log("id: " + cardIDS[i])
+                if(!this.cardsContainsID(cardIDS[i])) {
+
+                    try {
                         let card = await request(`api/aceit_cards/${cardIDS[i]}, 'GET`);
                         this.cards.push(generateCardFromDB(card));
-                    } else {
-                        cards.push(this.getCardWithID(cardIDS[i]));
+                    } catch(err) {
+                        console.log(err);
                     }
-                    
+                } else {
+                    cards.push(this.getCardWithID(cardIDS[i]));
+
                 }
 
                 
@@ -211,6 +212,8 @@ export default class Hub {
             return false;
     }
 
+
+
     loadCookies() {
 
         let decks = JSON.parse(localStorage.getItem("hub-active-decks"));
@@ -230,6 +233,7 @@ export default class Hub {
         this.userID = JSON.parse(localStorage.getItem("user_id"));
 
     }
+
 
 
     

@@ -6,8 +6,10 @@
 	export let onConfirm;
 	/** @type {Function}*/
 	export let onClose;
+
 	/**@type {String}*/
 	export let style;
+
 
 	
 	/** @type {HTMLDialogElement}*/

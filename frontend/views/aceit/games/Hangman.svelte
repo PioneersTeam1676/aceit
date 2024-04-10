@@ -339,6 +339,10 @@
     game_state = "playing";
   }
 
+  const refresh = () => {
+    window.location.reload();
+  }
+
   </script>
 
   <svelte:head>
@@ -360,7 +364,7 @@
   <div class="aceit-win-screen">
       <h1>You have saved the frogs!</h1>
       <a href="/#/aceit/hangman">
-          <button on:click={reset}>Play Again</button>
+          <button on:click={refresh}>Play Again</button>
       </a>
   </div>
 {:else if game_state==="playing"}
