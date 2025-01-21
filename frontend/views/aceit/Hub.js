@@ -217,6 +217,11 @@ export default class Hub {
     loadCookies() {
 
         let decks = JSON.parse(localStorage.getItem("hub-active-decks"));
+        
+        if(decks == undefined) {
+            decks = [];
+        }
+
         decks.map((d) => {
             try {
                 d.cards = d.cards.split(',');
@@ -231,6 +236,11 @@ export default class Hub {
         
         this.moveableDecks = decks;
         this.userID = JSON.parse(localStorage.getItem("user_id"));
+
+        if(this.userID == undefined) {
+            alert("you have no user id, need to reditect to sign in page");
+            this.userID = -1;
+        }
 
     }
 
