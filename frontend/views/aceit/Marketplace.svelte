@@ -399,6 +399,16 @@
     {/await}
 
 
+    <div style="background: #9dc88d;">
+        <br/><br/><br/><br/><br/><br/>
+
+        <h3 style="text-align: center;">
+            Marketplace is under construction. Check back soon!
+        </h3>
+
+        <br/><br/><br/><br/><br/><br/>
+    </div>
+
     <Footer />
 </main>
 

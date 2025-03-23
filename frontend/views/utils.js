@@ -9,7 +9,9 @@ export const launch = (deck, game) => {
 
     localStorage.setItem('current-game-deck', JSON.stringify(deck));
 
-    window.location.href = `${window.location.href.substring(0, window.location.href.indexOf('aceit')+5)}/${game}`
+    console.log(window.location.href)
+
+    window.location.href = `${window.location.href.substring(0, window.location.href.indexOf('aceit', 10)+5)}/${game}`
 
     
 

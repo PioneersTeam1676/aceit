@@ -203,7 +203,9 @@ function themeConfig() {
 		},
 		// webpack dev server config
 		devServer: {
-			contentBase: demoPath,
+			static: {
+		        directory: path.join(__dirname, demoPath),
+		    },
 			compress: true,
 			port: 8080,
 		},
@@ -542,7 +544,10 @@ function svelteConfig() {
 		plugins: [
 			new MiniCssExtractPlugin({
 				filename: '[name].css'
-			})
+			}),
+			new webpack.IgnorePlugin({
+	            resourceRegExp: /tinymce\/(skins|plugins)/, // The pattern to match warnings
+	        })
 		],
 		devtool: !dev ? false : 'source-map',
 		devServer: {

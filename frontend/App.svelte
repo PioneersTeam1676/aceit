@@ -27,6 +27,7 @@
     import HubBeta from './views/aceit/HubBeta.svelte';
     import Login from './views/aceit/Login.svelte';
     import SignUp from './views/aceit/SignUp.svelte';
+    import Callback from './views/aceit/Callback.svelte';
 
 
     import AceItTest from './views/aceit/games/Test.svelte'
@@ -37,12 +38,13 @@
 
 </script>
 
-<main style="height: 100%;">
+<main id="aceit-main-content" style="height: 100%;">
 
         <Router routes={{
-            '/' : Landing,
+            '/' : AceItLanding,
 
             '/aceit/' : AceItLanding,
+            '/aceit/market' : AceItMarketplace,
             '/aceit/marketplace' : AceItMarketplace,
             '/aceit/hangman' : AceItHangman,
             '/aceit/memory' : AceItMemory,
@@ -51,15 +53,17 @@
             '/aceit/flashcards' : AceItFlashcards,
             '/aceit/learn' : AceItLearn,
             '/testing' : Testing,
-            '/aceit/hub' : AceItHub,
             '/aceit/games' : AceItGames,
             '/aceit/widget' : AceItWidget,
             '/aceit/cardwidget' : AceItCardWidget,
             '/aceit/labelwidget' : AceItLabelWidget,
             '/aceit/filterwidget': AceItFilterWidget,
-            '/aceit/hubbeta': HubBeta,
+            '/aceit/decks': HubBeta,
+            '/aceit/hub' : HubBeta,
+            '/aceit/hubbeta' : HubBeta,
             '/aceit/login': Login,
             '/aceit/signup': SignUp,
+            '/aceit/callback/:token/:uuid': Callback,
 
             '/aceit/test': AceItTest,
 

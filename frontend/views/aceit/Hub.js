@@ -235,18 +235,23 @@ export default class Hub {
         });
         
         this.moveableDecks = decks;
-        this.userID = JSON.parse(localStorage.getItem("user_id"));
+        this.userID = localStorage.getItem("user_id");
 
-        if(this.userID == undefined) {
-            alert("you have no user id, need to reditect to sign in page");
-            this.userID = -1;
-        }
+        (async () => {
+            if (this.userID == undefined) {
+                let response = await fetch('https://portal.team1676.com/api.php?init=1&origin=aceit.team1676.com', { method: 'GET' });
+                let login_session = await response.json();
+                let callback_url = window.location.href;
+                localStorage.setItem("redirect_post_login", callback_url);
+                callback_url = callback_url.split('#')[0];
+                window.location.href = "https://portal.team1676.com/api.php?app_token=OE0XHlRvZzedMZ18rmSggw8H-9huRVLTYJ7sYCE_HfU&key=" + login_session.token + "&callback=" + callback_url + "%23%2Faceit%2Fcallback";
+                this.userID = -1;
+            }
+        })();
+
 
     }
 
-
-
-    
 
 
 }
