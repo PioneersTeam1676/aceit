@@ -15,7 +15,7 @@
 	/* bs meaning brightness shift, usage for hover effects */
 	--aceit-bs-gray: #ccc;
 	--aceit-bs-primary: #4d914e;
-	--aceit-bs-secondary: #a3e08c;
+	--aceit-bs-secondary: #345935;
 	--aceit-bs-tertiary: #176357;
 	--aceit-bs-accent: #ffba4a;
 	--aceit-bs-red: #8a2121;
@@ -409,6 +409,7 @@ button:focus {
 	font-size: 50px;
 	padding: 20px 40px;
 	margin-top: 50px;
+	color: white;
 	background-color: var(--aceit-primary);
 	transition: background-color 150ms;
 	border: none;
@@ -416,7 +417,7 @@ button:focus {
 }
 
 .aceit-win-screen button:hover {
-	background-color: var(--aceit-bs-primary);
+	background-color: var(--aceit-bs-secondary);
 }
 .aceit-win-screen-secondary {
 	display: flex;
@@ -430,7 +431,8 @@ button:focus {
 	font-size: 50px;
 	padding: 20px 40px;
 	margin-top: 50px;
-	background-color: var(--aceit-secondary);
+	color: white;
+	background-color: var(--aceit-primary);
 	transition: background-color 150ms;
 	border: none;
 	border-radius: 5px;

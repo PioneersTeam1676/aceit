@@ -1,7 +1,6 @@
 <script>
    console.log ("GOOOOOOOOOOD MORNING PIONEERS 35");
     import Header from './sections/Header.svelte';
-    import HeaderLoggedIn from './sections/HeaderIfLoggedIn.svelte';
     import Footer from './sections/Footer.svelte';
 
     import bannerImg from '../../media/aceit/forest-background2.png'

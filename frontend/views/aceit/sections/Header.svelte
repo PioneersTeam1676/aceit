@@ -4,21 +4,45 @@
     import logo from '../../../media/aceit/AceIt_Logo.svg';
     import favicon from '../../../media/aceit/aceIt_mushroom.png';
     import { location } from 'svelte-spa-router';
+    import { onMount } from 'svelte';
     let sidebarOpen = false;
 
     let headerBgColor = "linear-gradient(90deg, rgb(6, 30, 13) 0%, rgb(15 35 23) 60%, rgb(12, 37, 20) 100%)";
     let route = "";
+    let hideMenu = false;
+    let backArrow = false;
+    let top = 0;
 
     location.subscribe(currentRoute => {
         route = currentRoute;
-        console.log(route);
         if (currentRoute == "/aceit" || currentRoute == "/") {
             headerBgColor = "linear-gradient(90deg, var(--aceit-tertiary) 10%, var(--aceit-primary) 60%, #508558 100%)";
+        } else if (currentRoute == "/aceit/decks") {
+            top = -90;
+            hideMenu = true;
+        } else if (currentRoute == "/aceit/flashcards" ||
+                   currentRoute == "/aceit/memory" ||
+                   currentRoute == "/aceit/learn" ||
+                   currentRoute == "/aceit/hangman" ||
+                   currentRoute == "/aceit/bossbattle") {
+            top = -90;
+            hideMenu = true;
+            backArrow = true;
         }
+    });
+
+    let userID = null;
+
+    onMount(() => {
+        userID = localStorage.getItem("user_id");
     });
 
     function openNav() { sidebarOpen = true; }
     function closeNav() { sidebarOpen = false; }
+
+    function toggleHeader() {
+        if (hideMenu) top = top === 0 ? -90 : 0;
+    }
 </script>
 
 <svelte:head>
@@ -36,7 +60,7 @@
 </head>
 
 <main>
-    <nav class="aceit-header aceit-header-fixed" style="background: {headerBgColor};">
+    <nav class="aceit-header aceit-header-fixed" style="background: {headerBgColor}; {hideMenu ? ("top: " + top + "px") : ""}" on:mouseleave={toggleHeader}>
         <a href="/#/aceit">
             <img class = "logo" src={logo} alt = "LogoA">
         </a>
@@ -46,6 +70,10 @@
         <div class="aceit-header-menu">
             <a href="/#/aceit">
                 <button class="aceit-button {route == "/aceit" ? "aceit-button-secondary" : ""}" type="home-button"><i class="fa-solid fa-house"></i>Home</button>
+            </a>
+
+            <a href="/#/aceit/instructions">
+                <button class="aceit-button {route == "/aceit/instructions" ? "aceit-button-secondary" : ""}" type="home-button"><i class="fa-solid fa-info-circle"></i>Instructions</button>
             </a>
 
             <a href="/#/aceit/decks">
@@ -63,22 +91,28 @@
 
         <!-- If Marketplace, hide the search bar (we make our own) -->
         {#if tab!=1}
-            <div class="aceit-searchbox">
+            <!--<div class="aceit-searchbox">
                 <input required="required" type="text">
                 <span>Search Cards</span>
                 <i></i>
-            </div>
+            </div>-->
         {/if}
 
-        <div class="aceit-header-profile">
-            <a href="/#/aceit/login">
-                <button style="margin-right: 5px;" class="aceit-button" type="home-button">Log In</button>
-            </a>
+        {#if userID==null}
+            <div class="aceit-header-profile">
+                <a href="/#/aceit/login">
+                    <button style="margin-right: 5px;" class="aceit-button" type="home-button">Log In</button>
+                </a>
 
-            <a href="/#/aceit/signup">
-                <button class="aceit-button aceit-button-primary" type="home-button">Sign Up</button>
-            </a>
-        </div>
+                <a href="/#/aceit/signup">
+                    <button class="aceit-button aceit-button-primary" type="home-button">Sign Up</button>
+                </a>
+            </div>
+        {:else}
+            <div class="aceit-header-profile">
+                <img class = "profile-picture" src = "https://drawcartoonstyle.com/wp-content/uploads/2022/10/13-add-spots-to-the-mushroom-head.jpg" alt = "PFP">
+            </div>
+        {/if}
     </nav>
 
     <div id="mySidebar" class="sidebar" class:sidebar-open={sidebarOpen}>
@@ -87,14 +121,27 @@
         </a>
         <button class="closebtn aceit-button" on:click={closeNav}><i class="fa-regular fa-circle-xmark"></i></button>
         <a href="/#/aceit"><button class="aceit-button {route == "/aceit" ? "aceit-button-secondary" : ""}" type="home-button"><i class="fa-solid fa-house"></i>Home</button></a>
+        <a href="/#/aceit/instructions"><button class="aceit-button {route == "/aceit/instructions" ? "aceit-button-secondary" : ""}" type="home-button"><i class="fa-solid fa-info-circle"></i>Instructions</button></a>
         <a href="/#/aceit/decks"><button class="aceit-button {route == "/aceit/decks" ? "aceit-button-secondary" : ""}" type="home-button"><i class="fa-solid fa-house"></i>My Decks</button></a>
         <a href="/#/aceit/market"><button class="aceit-button {route == "/aceit/market" ? "aceit-button-secondary" : ""}" type="home-button"><i class="fa-solid fa-store"></i>Marketplace</button></a>
         <a href="/#/aceit/games"><button class="aceit-button {route == "/aceit/games" ? "aceit-button-secondary" : ""}" type="home-button"><i class="fa-solid fa-gamepad"></i>Games</button></a>
     </div>
 </main>
 
+{#if hideMenu}
+    <div class="fa-circle-down-container" on:mouseenter={toggleHeader}>
+        <span>Main Menu</span>
+        <i class="fa-regular fa-circle-down"></i>
+    </div>
+{/if}
+{#if hideMenu}
+    <a href="/#/aceit/decks">
+        <i class="fa-solid fa-circle-left"></i>
+    </a>
+{/if}
+
 <!-- Header fix - shift page down -->
-<div class="aceit-header">
+<div class="aceit-header" style="{hideMenu ? "height: 15px; z-index: 1; position: absolute; background: #fff; box-shadow: 0 0px 5px 0 #4b553a; position: fixed;" : ""}" on:mouseenter={toggleHeader}>
     <p>&nbsp;</p>
 </div>
 
@@ -108,6 +155,7 @@
         display: flex;
         align-items: center;
         flex-direction: row;
+        transition: top 0.5s;
     }
 
     .aceit-header-fixed {
@@ -129,6 +177,16 @@
         display: flex;
         justify-content: flex-end;
         flex-direction: row;
+    }
+
+    .aceit-header-profile .profile-picture {
+        border-radius: 100%;
+        transition: border-radius 500ms;
+    }
+
+    .aceit-header-profile .profile-picture:hover {
+        cursor: pointer;
+        border-radius: 25%;
     }
 
     .aceit-header-search {
@@ -250,5 +308,39 @@
         right: 0;
         font-size: 36px;
         margin-left: 50px;
+    }
+
+    .fa-circle-down-container {
+        z-index: 2;
+        position: fixed;
+        background: #fff;
+        padding: 0 7px 2px 12px;
+        left: calc(50% - 80px);
+        top: 7px;
+        font-size: 15px;
+        font-weight: bold;
+        border-radius: 0 0 15px 15px;
+    }
+
+    .fa-circle-down-container span {
+        top: -3px;
+        position: relative;
+        margin: 0 4px 0 1px;
+    }
+
+    .fa-circle-down {
+        color: black;
+        font-size: 27px;
+    }
+
+    .fa-circle-left {
+        background: #fff;
+        color: black;
+        font-size: 36px;
+        padding: 4px 4px 3px 4px;
+        border-radius: 50%;
+        position: fixed;
+        top: 30px;
+        left: 10px;
     }
 </style>

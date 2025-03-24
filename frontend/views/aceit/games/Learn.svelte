@@ -313,6 +313,8 @@
 <main>
     <Header />
 
+    <br/><br/>
+
     {#if question_type==="multiple choice"}
     <div class="multiple-choice-question">
         <!-- title -->
@@ -364,6 +366,9 @@
             <button on:click={reload}>Learn Again</button>
     </div>
     {/if}
+
+    <br/><br/>
+    
     <Footer />
 </main>
 

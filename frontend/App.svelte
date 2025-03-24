@@ -8,9 +8,9 @@
     //APPS PAGES
     import Landing from './views/appsPage/Landing.svelte'
 
-
     //AceIt PAGES
     import AceItLanding from './views/aceit/Landing.svelte'
+    import AceItInstructions from './views/aceit/Instructions.svelte'
     import AceItMarketplace from './views/aceit/Marketplace.svelte'
     import AceItEntry from './views/aceit/Entry.svelte'
     import AceItHangman from './views/aceit/games/Hangman.svelte'
@@ -41,33 +41,41 @@
 <main id="aceit-main-content" style="height: 100%;">
 
         <Router routes={{
-            '/' : AceItLanding,
 
+            '/' : AceItLanding,
             '/aceit/' : AceItLanding,
-            '/aceit/market' : AceItMarketplace,
-            '/aceit/marketplace' : AceItMarketplace,
-            '/aceit/hangman' : AceItHangman,
-            '/aceit/memory' : AceItMemory,
-            '/aceit/bossbattle' : AceItBossBattle,
-            '/aceit/entry' : AceItEntry,
-            '/aceit/flashcards' : AceItFlashcards,
-            '/aceit/learn' : AceItLearn,
-            '/testing' : Testing,
-            '/aceit/games' : AceItGames,
-            '/aceit/widget' : AceItWidget,
-            '/aceit/cardwidget' : AceItCardWidget,
-            '/aceit/labelwidget' : AceItLabelWidget,
-            '/aceit/filterwidget': AceItFilterWidget,
+
+            '/aceit/instructions' : AceItInstructions,
+
             '/aceit/decks': HubBeta,
             '/aceit/hub' : HubBeta,
             '/aceit/hubbeta' : HubBeta,
+
+            '/aceit/flashcards' : AceItFlashcards,
+            '/aceit/memory' : AceItMemory,
+            '/aceit/learn' : AceItLearn,
+            '/aceit/hangman' : AceItHangman,
+            '/aceit/bossbattle' : AceItBossBattle,
+
+            '/aceit/market' : AceItMarketplace,
+            '/aceit/marketplace' : AceItMarketplace,
+            
+            '/aceit/games' : AceItGames,
+            
             '/aceit/login': Login,
             '/aceit/signup': SignUp,
             '/aceit/callback/:token/:uuid': Callback,
 
+            '/aceit/widget' : AceItWidget,
+            '/aceit/cardwidget' : AceItCardWidget,
+            '/aceit/labelwidget' : AceItLabelWidget,
+            '/aceit/filterwidget': AceItFilterWidget,
+            '/aceit/entry' : AceItEntry,
+            '/testing' : Testing,
             '/aceit/test': AceItTest,
 
             '*' : Error404
+
         }}/>
 
 

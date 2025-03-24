@@ -446,7 +446,7 @@
 {:else if game_state==="playing"}
   {#if cards.length > 0}
       <!-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous"> -->
-      <div style="display: flex">
+      <div style="display: flex; padding: 10vh 0 20vh;">
         <!-- Beginning of Progress Bar -->
         <div class="sidebar">
           <div class="progressbar-background-container">
@@ -512,7 +512,7 @@
   <style>
 
   main {
-    background-color: var(--aceit-primary);
+    background-color: var(--aceit-secondary);
   }
 
   .card-flip {

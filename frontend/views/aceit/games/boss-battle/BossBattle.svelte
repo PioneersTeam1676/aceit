@@ -56,8 +56,8 @@
     </div>
   {:else}
     <div class="aceit-win-screen">
-      <h1>Match as many terms below with the definitions above before time runs out. Incorrect guess lose time, and correct guesses gain time.</h1>
-      <button on:click|once={start}>Start</button>
+      <h1 style="color: black;">Match as many terms below with the definitions above before time runs out. Incorrect guess lose time, and correct guesses gain time.</h1>
+      <button on:click|once={start}>Start Bossbattle</button>
     </div>
   {/if}
   <Footer />
@@ -164,7 +164,7 @@
     }
 
     :global(.aceit-win-screen button:hover) {
-        background-color: var(--aceit-bs-primary);
+        background-color: var(--aceit-bs-secondary);
     }
 
     #game-area:not(.started) {
