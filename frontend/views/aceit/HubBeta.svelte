@@ -636,7 +636,10 @@
     .hub-container {
         display: flex;
         width: 100%;
-        height: 100%;
+/*        height: 100%;*/
+        position: absolute;
+        top: 0;
+        bottom: 0;
     }
 
     .hub-field {
@@ -656,7 +659,7 @@
         overflow-y: auto;
         width: fit-content;
         max-width: 20rem;
-
+        box-shadow: 0 0 2px 0 #000000;
     }
 
     .sidebar-card {

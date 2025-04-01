@@ -8,7 +8,7 @@ import Header from './sections/Header.svelte';
  <br/><br/>
   <div class="card" style="width: 100%; background-color:#9DC88D;">
       <div class="card-body">
-        <h2 class="card-text card-title" style="color:black">Games</h2>
+        <h2 class="card-text card-title" style="color:black">Instructions</h2>
         <p class="card-text" style="color:black; margin-bottom: 10px;">Activies you can do on ACE-IT to enrich your study session!</p>
       </div>
   </div>

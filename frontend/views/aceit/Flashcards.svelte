@@ -244,8 +244,10 @@
   </div>
 {:else if game_state==="playing"}
 
+  <br/><br/><br/><br/>
+
   {#if cards.length >= 1}
-  <button on:click={() => {answerWithTerm = !answerWithTerm}} class="aceit-button aceit-secondary-button">Answering with: {answerWithTerm ? "Term" : "Definition"}</button>
+  <button on:click={() => {answerWithTerm = !answerWithTerm}} class="aceit-button aceit-secondary-button defTermToggleButton">Answering with: {answerWithTerm ? "Term" : "Definition"}</button>
 
   <!-- svelte-ignore a11y-click-events-have-key-events -->
 
@@ -308,7 +310,7 @@
 
   main {
     height: 100%;
-    background-color: var(--aceit-primary);
+    background-color: var(--aceit-secondary);
   }
 
   .flashcard-module {
@@ -316,6 +318,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    padding: 10vh 0 20vh;
   }
 
   @media only screen and (max-width: 600px) {
@@ -338,6 +341,17 @@
       border: 3px solid var(--aceit-primary);
       border-radius: 0.5rem;
       z-index: 5;
+    }
+
+    .defTermToggleButton {
+      right: 20px;
+      top: 32px;
+      position: absolute;
+      background: black;
+      padding: 7px 15px;
+      font-weight: 500;
+      border: 3px solid white;
+      border-radius: 10px;
     }
 
     .flashcard-container {

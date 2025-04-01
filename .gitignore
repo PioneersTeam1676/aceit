@@ -1,6 +1,7 @@
 /backend/config/db.config.js
 /node_modules
 /.idea
+/.htaccess
 watch.sh
 **/core.*[0-9]*
 /public/*
