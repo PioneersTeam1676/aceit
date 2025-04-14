@@ -19,7 +19,7 @@
     let hub;
     hub = new Hub(-1);
 
-    hub.loadCookies();
+    // hub.loadCookies();
 
     async function handleClick() {
         hub.activeModal = true;
